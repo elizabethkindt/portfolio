@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elizabeth Kindt | Contact Card</title>
+<meta name="description" content="Elizabeth Kindt, Product Designer and Researcher. Save my contact, visit my portfolio, or connect on LinkedIn.">
+<meta name="theme-color" content="#2E1A14">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Archivo:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;1,400&display=swap');
+
+:root {
+  --bg: #FAF8F4;
+  --surface: #F2E3DC;
+  --accent-deep: #2E1A14;
+  --accent-deep-shadow: #1F110C;
+  --rose: #CE8577;
+  --rose-deep: #A8555F;
+  --text-secondary: #86786C;
+  --text: #2E1A14;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Archivo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.logo-mark {
+  position: relative;
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle at center, var(--accent-deep) 0px, var(--accent-deep) 3px, var(--accent-deep-shadow) 3px, var(--accent-deep-shadow) 4px);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+  animation: spin 9s linear infinite;
+}
+.logo-mark__label {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--rose-deep); color: var(--bg);
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 700; font-size: 1.4rem;
+}
+.logo-mark__hole {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px; height: 5px; border-radius: 50%; background: var(--bg);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .logo-mark { animation: none; } }
+
+h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  color: var(--rose-deep);
+  font-size: 1.05rem;
+  margin-bottom: 0.75rem;
+}
+
+.blurb {
+  font-family: 'Newsreader', serif;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.actions { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.05rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--text);
+  background: transparent;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.btn:hover, .btn:active { background: var(--text); color: var(--bg); transform: translateY(-2px); }
+.btn--primary { background: var(--text); color: var(--bg); }
+.btn--primary:hover, .btn--primary:active { background: var(--rose-deep); border-color: var(--rose-deep); }
+.btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+.footer {
+  margin-top: 2.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+</style>
+</head>
+<body>
+
+<main class="card">
+  <span class="logo-mark" aria-hidden="true">
+    <span class="logo-mark__label">EK</span>
+    <span class="logo-mark__hole"></span>
+  </span>
+
+  <h1>Elizabeth Kindt</h1>
+  <p class="title">Product Designer &amp; Researcher</p>
+  <p class="blurb">Enterprise UX, AI-assisted tools, and design strategy. Based in New York City.</p>
+
+  <div class="actions">
+    <a class="btn btn--primary" href="elizabeth-kindt.vcf" download="Elizabeth Kindt.vcf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+      Save my contact
+    </a>
+    <a class="btn" href="https://elizabethkindt.design">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+      View my portfolio
+    </a>
+    <a class="btn" href="https://www.linkedin.com/in/elizabeth-kindt/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      Connect on LinkedIn
+    </a>
+    <a class="btn" href="mailto:elizabethkindt.design@gmail.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      Email me
+    </a>
+  </div>
+
+  <p class="footer">elizabethkindt.design</p>
+</main>
+
+</body>
+</html>
