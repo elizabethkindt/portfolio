@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elizabeth Kindt — Product Designer</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
 <meta name="description" content="Elizabeth Kindt is a designer and researcher who turns complex workflows into intuitive, delightful experiences.">
 <style>
 /* =========================================================
@@ -1575,6 +1579,53 @@ section {
   .nav-links { gap: var(--space-2); }
 }
 
+
+/* =========================================================
+   Site-wide polish (Nov 2026): nav aligned right, footer type,
+   small-screen header
+   ========================================================= */
+.site-header__inner { grid-template-columns: auto 1fr !important; }
+nav[aria-label="Primary"] { justify-self: end !important; }
+.nav-links { margin: 0; padding: 0; }
+.nav-links li:last-child a { padding-right: 0; }
+
+.site-footer { font-family: var(--font-display); font-size: var(--text-sm); }
+.site-footer__links a { font-family: var(--font-display); font-weight: 500; letter-spacing: 0.01em; color: var(--color-text-primary); }
+.site-footer__links a:hover { color: var(--color-rose-deep, #A8555F); }
+.site-footer__brand > span { font-style: italic; }
+
+@media (max-width: 600px) {
+  .site-header__inner { padding-left: var(--space-2) !important; padding-right: var(--space-2) !important; column-gap: var(--space-2) !important; }
+  .nav-links { gap: var(--space-2) !important; }
+  .nav-links a { font-size: 0.875rem; }
+  .logo-lockup__name { font-size: 0.95rem; }
+  .site-footer { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+}
+@media (max-width: 380px) {
+  .logo-lockup__tagline-wrap { display: none; }
+  .nav-links { gap: 0.85rem !important; }
+}
+
+/* =========================================================
+   Case study cards: live prototypes and photos inside the
+   device mockups (Nov 2026)
+   ========================================================= */
+.screen-fill { position: absolute; inset: 0; overflow: hidden; background: #fff; z-index: 0; }
+.screen-drift { position: absolute; left: 0; right: 0; top: 0; height: 100%; }
+.screen-drift--move { height: 135%; animation: screen-drift 11s ease-in-out infinite alternate; }
+@keyframes screen-drift { 0%, 12% { transform: translateY(0); } 88%, 100% { transform: translateY(-25.9%); } }
+.screen-fill iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; pointer-events: none; background: #fff; }
+.screen-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: photo-pan 16s ease-in-out infinite alternate; transform-origin: 50% 40%; }
+@keyframes photo-pan { from { transform: scale(1.04) translate(0, 0); } to { transform: scale(1.16) translate(-3%, -2%); } }
+.project-card:hover .screen-drift--move, .work-item:hover .screen-drift--move { animation-duration: 5s; }
+.project-card:hover .screen-photo, .work-item:hover .screen-photo { animation-duration: 6s; }
+.device-board__screen { position: relative; flex: 1; overflow: hidden; }
+.device-browser__page.has-mock { bottom: auto; height: 165%; }
+.reveal.is-visible .device-browser__page.has-mock { transform: translateY(-8%); }
+.project-card:hover .device-browser__page.has-mock { transform: translateY(-36%); }
+@media (prefers-reduced-motion: reduce) {
+  .screen-drift--move, .screen-photo { animation: none; }
+}
 </style>
 </head>
 <body>
@@ -1664,11 +1715,7 @@ section {
       <a href="onetrav.html" class="project-card reveal">
         <div class="project-card__media media-laptop" aria-hidden="true">
           <div class="device-laptop">
-            <div class="device-laptop__screen">
-              <div class="ui-navbar"><i></i><i></i><i></i><i></i></div>
-              <div class="ui-hero"></div>
-              <div class="ui-tiles"><i></i><i></i><i></i></div>
-            </div>
+            <div class="device-laptop__screen"><div class="screen-fill"><div class="screen-drift screen-drift--move" data-mock-w="400"><iframe src="mocks/onetrav.html" title="OneTrav prototype" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div></div></div>
             <div class="device-laptop__base"></div>
           </div>
         </div>
@@ -1686,18 +1733,11 @@ section {
         <div class="project-card__media media-duo" aria-hidden="true">
           <div class="project-card__badge">Shipped</div>
           <div class="device-laptop">
-            <div class="device-laptop__screen">
-              <div class="ui-navbar"><i></i><i></i><i></i></div>
-              <div class="ui-hero"></div>
-            </div>
+            <div class="device-laptop__screen"><div class="screen-fill"><div class="screen-drift" data-mock-w="400"><iframe src="mocks/ai-assistant.html" title="Dexter prototype" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div></div></div>
             <div class="device-laptop__base"></div>
           </div>
           <div class="device-phone">
-            <div class="device-phone__screen">
-              <div class="ui-navbar"><i></i><i></i></div>
-              <div class="ui-hero"></div>
-              <div class="ui-tiles ui-tiles--stack"><i></i><i></i></div>
-            </div>
+            <div class="device-phone__screen"><div class="screen-fill"><img class="screen-photo" src="images/ai-flipchart.jpg" alt="" loading="lazy"></div></div>
           </div>
         </div>
         <div class="project-card__body">
@@ -1719,16 +1759,7 @@ section {
               <span class="bar"></span>
             </div>
             <div class="device-browser__viewport">
-              <div class="device-browser__page">
-                <div class="ui-section">
-                  <div class="ui-hero"></div>
-                  <div class="ui-tiles"><i></i><i></i><i></i></div>
-                </div>
-                <div class="ui-section ui-section--alt">
-                  <div class="ui-hero"></div>
-                  <div class="ui-tiles"><i></i><i></i></div>
-                </div>
-              </div>
+              <div class="device-browser__page has-mock"><div class="screen-fill"><div class="screen-drift" data-mock-w="400"><iframe src="mocks/salesforce.html" title="Salesforce home page prototype" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div></div></div>
             </div>
           </div>
         </div>
@@ -1748,19 +1779,7 @@ section {
               <span class="dot dot--accent"></span><span class="dot"></span><span class="dot"></span>
               <span class="bar"></span>
             </div>
-            <div class="device-board__columns">
-              <div class="device-board__col">
-                <i class="device-board__card"></i>
-                <i class="device-board__card"></i>
-              </div>
-              <div class="device-board__col">
-                <i class="device-board__card device-board__card--accent"></i>
-              </div>
-              <div class="device-board__col">
-                <i class="device-board__card"></i>
-                <i class="device-board__card"></i>
-              </div>
-            </div>
+            <div class="device-board__columns device-board__screen"><div class="screen-fill"><img class="screen-photo" src="images/wid-boards.jpg" alt="" loading="lazy"></div></div>
           </div>
         </div>
         <div class="project-card__body">
@@ -1987,6 +2006,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+</script>
+<script>
+/* Scales each embedded prototype to fit its device screen. */
+(function () {
+  function fit(el) {
+    var f = el.querySelector('iframe'); if (!f) return;
+    var w = +el.getAttribute('data-mock-w') || 400;
+    var s = el.clientWidth / w; if (!s) return;
+    f.style.width = w + 'px';
+    f.style.height = Math.ceil(el.clientHeight / s) + 'px';
+    f.style.transform = 'scale(' + s + ')';
+  }
+  function init() {
+    var els = document.querySelectorAll('[data-mock-w]');
+    els.forEach(fit);
+    if ('ResizeObserver' in window) { var ro = new ResizeObserver(function (en) { en.forEach(function (e) { fit(e.target); }); }); els.forEach(function (e) { ro.observe(e); }); }
+    else window.addEventListener('resize', function () { els.forEach(fit); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
 </script>
 </body>
 </html>

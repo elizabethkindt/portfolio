@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Work | Elizabeth Kindt</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
 <meta name="description" content="A full-day product discovery workshop to align a cross-functional team around a future-state work routing solution for an enterprise insurance platform.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Archivo:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap');
@@ -465,6 +469,70 @@ blockquote cite { display: block; font-family: var(--font-body); font-style: nor
 .work-item h2 { font-size: var(--text-lg); margin: var(--space-2) 0 var(--space-1); }
 .work-item p { font-size: var(--text-sm); color: var(--color-text-secondary); margin: 0; }
 .contact-links { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* =========================================================
+   Site-wide polish (Nov 2026): nav aligned right, footer type,
+   small-screen header
+   ========================================================= */
+.site-header__inner { grid-template-columns: auto 1fr !important; }
+nav[aria-label="Primary"] { justify-self: end !important; }
+.nav-links { margin: 0; padding: 0; }
+.nav-links li:last-child a { padding-right: 0; }
+
+.site-footer { font-family: var(--font-display); font-size: var(--text-sm); }
+.site-footer__links a { font-family: var(--font-display); font-weight: 500; letter-spacing: 0.01em; color: var(--color-text-primary); }
+.site-footer__links a:hover { color: var(--color-rose-deep, #A8555F); }
+.site-footer__brand > span { font-style: italic; }
+
+@media (max-width: 600px) {
+  .site-header__inner { padding-left: var(--space-2) !important; padding-right: var(--space-2) !important; column-gap: var(--space-2) !important; }
+  .nav-links { gap: var(--space-2) !important; }
+  .nav-links a { font-size: 0.875rem; }
+  .logo-lockup__name { font-size: 0.95rem; }
+  .site-footer { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+}
+@media (max-width: 380px) {
+  .logo-lockup__tagline-wrap { display: none; }
+  .nav-links { gap: 0.85rem !important; }
+}
+
+/* Work page: visual case study rows (Nov 2026) */
+.work-list { display: grid; gap: var(--space-4); }
+.work-item { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: var(--space-4); align-items: center; background: transparent; border: 1px solid rgba(36, 28, 24, 0.12); border-radius: var(--radius-md); padding: var(--space-3); transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease), border-color var(--duration) var(--ease); }
+.work-item:hover { transform: translateY(-4px); border-color: var(--color-accent-deep); box-shadow: 0 20px 40px -20px rgba(46,26,20,0.25); }
+.work-item__media { position: relative; aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden; background: linear-gradient(160deg, var(--color-rose) 0%, var(--color-accent) 100%); }
+.work-item__screen { position: absolute; inset: 9% 9% 0; border-radius: 8px 8px 0 0; overflow: hidden; border: 3px solid var(--color-accent-deep); border-bottom: none; box-shadow: 0 18px 30px -14px rgba(31, 17, 12, 0.55); transition: transform 0.6s var(--ease); }
+.work-item:hover .work-item__screen { transform: translateY(-4%) scale(1.02); }
+.work-item h2 { font-size: var(--text-lg); margin: 0 0 var(--space-1); }
+.work-item p { font-size: var(--text-sm); color: var(--color-text-secondary); margin: 0 0 var(--space-2); }
+.work-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.work-tag { font-family: var(--font-body); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.03em; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(140, 79, 82, 0.08); color: var(--color-text-secondary); border: 1px solid rgba(140, 79, 82, 0.16); }
+.work-item__more { display: inline-block; margin-top: var(--space-2); font-family: var(--font-display); font-style: italic; font-size: var(--text-sm); color: var(--color-rose-deep); }
+@media (max-width: 700px) {
+  .work-item { grid-template-columns: 1fr; gap: var(--space-3); padding: var(--space-2); }
+  .page h1 { font-size: var(--text-xl); }
+}
+
+/* =========================================================
+   Case study cards: live prototypes and photos inside the
+   device mockups (Nov 2026)
+   ========================================================= */
+.screen-fill { position: absolute; inset: 0; overflow: hidden; background: #fff; z-index: 0; }
+.screen-drift { position: absolute; left: 0; right: 0; top: 0; height: 100%; }
+.screen-drift--move { height: 135%; animation: screen-drift 11s ease-in-out infinite alternate; }
+@keyframes screen-drift { 0%, 12% { transform: translateY(0); } 88%, 100% { transform: translateY(-25.9%); } }
+.screen-fill iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; pointer-events: none; background: #fff; }
+.screen-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: photo-pan 16s ease-in-out infinite alternate; transform-origin: 50% 40%; }
+@keyframes photo-pan { from { transform: scale(1.04) translate(0, 0); } to { transform: scale(1.16) translate(-3%, -2%); } }
+.project-card:hover .screen-drift--move, .work-item:hover .screen-drift--move { animation-duration: 5s; }
+.project-card:hover .screen-photo, .work-item:hover .screen-photo { animation-duration: 6s; }
+.device-board__screen { position: relative; flex: 1; overflow: hidden; }
+.device-browser__page.has-mock { bottom: auto; height: 165%; }
+.reveal.is-visible .device-browser__page.has-mock { transform: translateY(-8%); }
+.project-card:hover .device-browser__page.has-mock { transform: translateY(-36%); }
+@media (prefers-reduced-motion: reduce) {
+  .screen-drift--move, .screen-photo { animation: none; }
+}
 </style>
 </head>
 <body>
@@ -498,10 +566,42 @@ blockquote cite { display: block; font-family: var(--font-body); font-style: nor
     <span class="eyebrow" style="display:block; font-family: var(--font-display); font-style: italic; color: var(--color-rose-deep); margin-bottom: var(--space-2);">Selected work</span>
     <h1>Case studies</h1>
     <div class="work-list">
-    <a class="work-item" href="onetrav.html"><span class="tag">Product Design &middot; Research</span><h2>Travelers OneTrav</h2><p>Unifying several enterprise systems into a single platform for collaboration and transparency, built for underwriting teams.</p></a>
-    <a class="work-item" href="ai-assistant.html"><span class="tag">AI/UX &middot; Design Thinking &middot; Workshop</span><h2>AI Assistant Workshop</h2><p>An AI assistant designed and built in a single day using prior research, Figma prototypes and Claude Code.</p></a>
-    <a class="work-item" href="salesforce.html"><span class="tag">Product Design</span><h2>Salesforce Redesign</h2><p>Reworking a sales homepage experience to fit underwriter workflows.</p></a>
-    <a class="work-item" href="work-item-distribution.html"><span class="tag">Product Discovery &middot; Facilitation</span><h2>Task Distribution Workshop</h2><p>A full-day discovery workshop to align a cross-functional team around a future-state work routing solution.</p></a>
+    <a class="work-item" href="onetrav.html">
+      <div class="work-item__media" aria-hidden="true"><div class="work-item__screen"><div class="screen-fill"><div class="screen-drift screen-drift--move" data-mock-w="400"><iframe src="mocks/onetrav.html" title="" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div></div></div></div>
+      <div class="work-item__body">
+        <h2>Travelers OneTrav</h2>
+        <p>Unifying several enterprise systems into a single platform for collaboration and transparency, built for underwriting teams.</p>
+        <div class="work-tags"><span class="work-tag">Product Design</span><span class="work-tag">Research</span></div>
+        <span class="work-item__more">View case study &rarr;</span>
+      </div>
+    </a>
+    <a class="work-item" href="ai-assistant.html">
+      <div class="work-item__media" aria-hidden="true"><div class="work-item__screen"><div class="screen-fill"><div class="screen-drift" data-mock-w="400"><iframe src="mocks/ai-assistant.html" title="" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div></div></div></div>
+      <div class="work-item__body">
+        <h2>AI Assistant Workshop</h2>
+        <p>An AI assistant designed and built in a single day using prior research, Figma prototypes and Claude Code.</p>
+        <div class="work-tags"><span class="work-tag">AI/UX</span><span class="work-tag">Design Thinking</span><span class="work-tag">Workshop</span></div>
+        <span class="work-item__more">View case study &rarr;</span>
+      </div>
+    </a>
+    <a class="work-item" href="salesforce.html">
+      <div class="work-item__media" aria-hidden="true"><div class="work-item__screen"><div class="screen-fill"><div class="screen-drift screen-drift--move" data-mock-w="400"><iframe src="mocks/salesforce.html" title="" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div></div></div></div>
+      <div class="work-item__body">
+        <h2>Salesforce Redesign</h2>
+        <p>Reworking a sales homepage experience to fit underwriter workflows.</p>
+        <div class="work-tags"><span class="work-tag">Product Design</span></div>
+        <span class="work-item__more">View case study &rarr;</span>
+      </div>
+    </a>
+    <a class="work-item" href="work-item-distribution.html">
+      <div class="work-item__media" aria-hidden="true"><div class="work-item__screen"><div class="screen-fill"><img class="screen-photo" src="images/wid-outcomes.jpg" alt="" loading="lazy"></div></div></div>
+      <div class="work-item__body">
+        <h2>Task Distribution Workshop</h2>
+        <p>A full-day discovery workshop to align a cross-functional team around a future-state work routing solution.</p>
+        <div class="work-tags"><span class="work-tag">Product Discovery</span><span class="work-tag">Facilitation</span></div>
+        <span class="work-item__more">View case study &rarr;</span>
+      </div>
+    </a>
     </div>
   </section>
 </main>
@@ -540,5 +640,25 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script>
+/* Scales each embedded prototype to fit its device screen. */
+(function () {
+  function fit(el) {
+    var f = el.querySelector('iframe'); if (!f) return;
+    var w = +el.getAttribute('data-mock-w') || 400;
+    var s = el.clientWidth / w; if (!s) return;
+    f.style.width = w + 'px';
+    f.style.height = Math.ceil(el.clientHeight / s) + 'px';
+    f.style.transform = 'scale(' + s + ')';
+  }
+  function init() {
+    var els = document.querySelectorAll('[data-mock-w]');
+    els.forEach(fit);
+    if ('ResizeObserver' in window) { var ro = new ResizeObserver(function (en) { en.forEach(function (e) { fit(e.target); }); }); els.forEach(function (e) { ro.observe(e); }); }
+    else window.addEventListener('resize', function () { els.forEach(fit); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
 </body>
 </html>

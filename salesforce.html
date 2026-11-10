@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Salesforce home page, discovery through pilot | Elizabeth Kindt</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
 <meta name="description" content="The default Salesforce home page was a starting point no one started from. Eighteen months of research, usability testing, and a pilot built a replacement that sellers open first instead of navigating around. Recreated for portfolio purposes.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Archivo:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap');
@@ -1720,6 +1724,32 @@ blockquote cite {
   .sf-fstage__amt { width: 2.8rem; }
   .abar__label { white-space: normal; }
   .adopt__head, .adopt__tabs, .adopt__body { padding-left: 0.7rem; padding-right: 0.7rem; }
+}
+
+/* =========================================================
+   Site-wide polish (Nov 2026): nav aligned right, footer type,
+   small-screen header
+   ========================================================= */
+.site-header__inner { grid-template-columns: auto 1fr !important; }
+nav[aria-label="Primary"] { justify-self: end !important; }
+.nav-links { margin: 0; padding: 0; }
+.nav-links li:last-child a { padding-right: 0; }
+
+.site-footer { font-family: var(--font-display); font-size: var(--text-sm); }
+.site-footer__links a { font-family: var(--font-display); font-weight: 500; letter-spacing: 0.01em; color: var(--color-text-primary); }
+.site-footer__links a:hover { color: var(--color-rose-deep, #A8555F); }
+.site-footer__brand > span { font-style: italic; }
+
+@media (max-width: 600px) {
+  .site-header__inner { padding-left: var(--space-2) !important; padding-right: var(--space-2) !important; column-gap: var(--space-2) !important; }
+  .nav-links { gap: var(--space-2) !important; }
+  .nav-links a { font-size: 0.875rem; }
+  .logo-lockup__name { font-size: 0.95rem; }
+  .site-footer { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+}
+@media (max-width: 380px) {
+  .logo-lockup__tagline-wrap { display: none; }
+  .nav-links { gap: 0.85rem !important; }
 }
 </style>
 </head>
