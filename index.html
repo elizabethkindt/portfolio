@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elizabeth Kindt — Product Designer</title>
+<title>Elizabeth Kindt | Product Designer</title>
 <meta name="description" content="Elizabeth Kindt is a designer and researcher who turns complex workflows into intuitive, delightful experiences.">
 <style>
 /* =========================================================
@@ -1575,6 +1575,466 @@ section {
   .nav-links { gap: var(--space-2); }
 }
 
+
+/* =========================================================
+   CARD PREVIEWS
+   Mini, NDA-safe UI recreations that live inside each case
+   study card's device frame. Everything is HTML/CSS with
+   invented data. No screenshots, no Travelers branding.
+
+   Sizing: each screen is a size container, and .pv sets
+   1em = 1/40 of the screen width (1/32 for the AI laptop,
+   1/20 for the phone). Every measurement inside is in em,
+   so the whole UI scales with the card at any breakpoint.
+
+   Motion: each card runs one looping story. Loops stay
+   paused until the card is on screen (.pv-on is toggled by
+   a small observer in the page script). The base styles
+   are the "finished" frame, so prefers-reduced-motion just
+   turns the animations off and shows the end state.
+
+   Tweak speed per card with --pv-dur on .pv1 to .pv4.
+   ========================================================= */
+.device-laptop__screen,
+.device-phone__screen,
+.device-browser__viewport,
+.device-board__body { container-type: inline-size; }
+
+.device-board__body { flex: 1; position: relative; }
+.device-board .dot { width: 8%; aspect-ratio: 1; flex-shrink: 0; border-radius: 50%; background: rgba(250, 248, 244, 0.35); }
+.device-board .dot--accent { background: var(--color-rose); }
+.device-board .bar { flex: 1; height: 45%; border-radius: 999px; background: rgba(250, 248, 244, 0.2); }
+
+.pv {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  font-size: 6px;
+  font-size: calc(100cqw / 40);
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  line-height: 1.25;
+  text-align: left;
+  background: var(--color-bg);
+  --pv-white: #FFFFFF;
+  --pv-line: rgba(46, 26, 20, 0.1);
+  --pv-soft: rgba(46, 26, 20, 0.05);
+}
+.pv *, .pv *::before, .pv *::after { box-sizing: border-box; }
+.pv b { font-weight: 600; }
+.pv i, .pv em { font-style: normal; }
+.pv-fade { position: absolute; inset: 0; }
+
+/* Every animated piece shares the same clock per card */
+.pv-fade, .pv-fade * {
+  animation-duration: var(--pv-dur, 4s);
+  animation-delay: var(--pv-delay, 0s);
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-play-state: paused;
+}
+.project-card.pv-on .pv-fade,
+.project-card.pv-on .pv-fade * { animation-play-state: running; }
+
+.pv-fade { animation-name: pv-fade; }
+@keyframes pv-fade {
+  0%, 89% { opacity: 1; }
+  93%, 96% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Shared bits */
+.pv-cursor {
+  position: absolute;
+  width: 1.15em;
+  height: 1.55em;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0.1em 0.15em rgba(31, 17, 12, 0.35));
+  transition: filter 0.3s var(--ease);
+}
+.pv-cursor path { fill: var(--pv-white); stroke: var(--color-accent-deep); stroke-width: 1.1; stroke-linejoin: round; }
+.project-card:hover .pv-cursor { filter: drop-shadow(0 0 0.35em rgba(206, 133, 119, 0.95)); }
+
+.pv-chip {
+  display: inline-grid;
+  font-size: 0.54em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pv-chip > span { grid-area: 1 / 1; padding: 0.3em 0.85em; border-radius: 999px; }
+.pv-chip--wait > span { background: var(--color-surface); color: var(--color-accent); }
+.pv-chip--go > span { background: rgba(168, 85, 95, 0.14); color: var(--color-rose-deep); }
+.pv-chip--off > span { background: rgba(46, 26, 20, 0.07); color: var(--color-text-secondary); }
+.pv-chip--done > span { background: var(--color-rose-deep); color: var(--pv-white); }
+
+/* ---------------------------------------------------------
+   Card 1: OneTrav underwriter home (laptop, 40 x 25em)
+   Story: open Intake review, pursue a line of business,
+   add a reason, watch the account chip flip to Pursued.
+   --------------------------------------------------------- */
+.pv1 { --pv-dur: 4s; }
+
+.pv1-nav { position: absolute; left: 0; top: 0; bottom: 0; width: 3em; background: var(--color-accent-deep); display: flex; flex-direction: column; align-items: center; gap: 0.9em; padding-top: 1.1em; }
+.pv1-nav i { width: 1.2em; height: 1.2em; border-radius: 0.3em; background: rgba(250, 248, 244, 0.22); }
+.pv1-nav i.pv1-logo { width: 1.5em; height: 1.5em; border-radius: 50%; background: var(--color-rose); margin-bottom: 0.4em; }
+.pv1-nav i.is-on { background: rgba(250, 248, 244, 0.75); }
+
+.pv1-greet { position: absolute; left: 4.4em; top: 1.1em; }
+.pv1-greet b { display: block; font-family: var(--font-display); font-size: 1.3em; white-space: nowrap; }
+.pv1-greet span { display: block; font-size: 0.6em; color: var(--color-text-secondary); margin-top: 0.3em; }
+
+.pv1-search { position: absolute; right: 4em; top: 1.35em; width: 8.5em; height: 1.6em; border: 1px solid var(--pv-line); border-radius: 999px; background: var(--pv-white); display: flex; align-items: center; padding-left: 0.7em; }
+.pv1-search span { font-size: 0.54em; color: var(--color-text-secondary); }
+.pv1-avatar { position: absolute; right: 1.3em; top: 1.2em; width: 1.9em; height: 1.9em; border-radius: 50%; background: var(--color-rose); color: var(--pv-white); display: grid; place-items: center; }
+.pv1-avatar span { font-size: 0.6em; font-weight: 700; }
+
+.pv1-cards { position: absolute; left: 4.4em; right: 1.3em; top: 4.6em; height: 5.3em; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8em; }
+.pv1-card { position: relative; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.5em; padding: 0.65em 0.7em; min-width: 0; transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); }
+.pv1-card b { display: block; font-size: 0.7em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pv1-card > span { display: block; font-size: 0.5em; color: var(--color-text-secondary); margin-top: 0.3em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pv1-card .pv-chip { position: absolute; left: 1.3em; bottom: 1.1em; }
+.project-card:hover .pv1-card { transform: translateY(-0.15em); box-shadow: 0 0.4em 0.8em -0.5em rgba(31, 17, 12, 0.35); }
+
+/* The flipping chip on the first account */
+.pv1-flip { border-radius: 999px; animation-name: pv1-ring; }
+.pv1-flip .pv1-a { background: var(--color-surface); color: var(--color-accent); opacity: 0; animation-name: pv1-chip-a; }
+.pv1-flip .pv1-b { background: var(--color-rose-deep); color: var(--pv-white); animation-name: pv1-chip-b; }
+@keyframes pv1-chip-a { 0%, 71% { opacity: 1; } 75%, 100% { opacity: 0; } }
+@keyframes pv1-chip-b { 0%, 71% { opacity: 0; } 75%, 100% { opacity: 1; } }
+@keyframes pv1-ring {
+  0%, 72% { box-shadow: 0 0 0 0 rgba(168, 85, 95, 0.55); }
+  86%, 100% { box-shadow: 0 0 0 0.9em rgba(168, 85, 95, 0); }
+}
+
+.pv1-tab { position: absolute; top: 10.55em; height: 1.5em; display: flex; align-items: center; gap: 0.35em; }
+.pv1-tab span { font-size: 0.62em; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; }
+.pv1-tab--1 { left: 4.4em; width: 4.2em; }
+.pv1-tab--2 { left: 9.6em; width: 6.6em; }
+.pv1-tab--2 span { color: var(--color-text-primary); animation-name: pv1-tab2; }
+.pv1-tab em { font-size: 0.46em; font-weight: 700; background: var(--color-rose-deep); color: var(--pv-white); border-radius: 999px; padding: 0.15em 0.6em; }
+@keyframes pv1-tab2 { 0%, 26% { color: var(--color-text-secondary); } 30%, 92% { color: var(--color-text-primary); } 97%, 100% { color: var(--color-text-secondary); } }
+
+.pv1-ind { position: absolute; top: 12.05em; height: 0.16em; left: 9.6em; width: 6.6em; border-radius: 999px; background: var(--color-rose-deep); animation-name: pv1-ind; }
+@keyframes pv1-ind {
+  0%, 26% { left: 4.4em; width: 3.4em; }
+  31%, 100% { left: 9.6em; width: 6.6em; }
+}
+
+.pv1-panel { position: absolute; left: 4.4em; right: 1.3em; top: 12.6em; bottom: 1.1em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.55em; overflow: hidden; }
+
+.pv1-tasks { position: absolute; inset: 0; padding: 0.3em 0.9em; opacity: 0; animation-name: pv1-tasks; }
+@keyframes pv1-tasks { 0%, 27% { opacity: 1; } 31%, 100% { opacity: 0; } }
+.pv1-task { height: 2.15em; display: flex; align-items: center; gap: 0.6em; border-bottom: 1px solid var(--pv-line); }
+.pv1-task:last-child { border-bottom: none; }
+.pv1-task i { width: 0.85em; height: 0.85em; border-radius: 50%; border: 1px solid rgba(46, 26, 20, 0.3); flex-shrink: 0; }
+.pv1-task span { font-size: 0.6em; white-space: nowrap; }
+.pv1-task em { margin-left: auto; font-size: 0.5em; font-weight: 600; color: var(--color-text-secondary); background: var(--pv-soft); border-radius: 999px; padding: 0.25em 0.8em; }
+.pv1-task em.is-hot { color: var(--color-rose-deep); background: rgba(168, 85, 95, 0.12); }
+
+.pv1-intake { position: absolute; inset: 0; padding: 0.55em 0.8em; display: flex; flex-direction: column; animation-name: pv1-intake; }
+@keyframes pv1-intake { 0%, 27% { opacity: 0; } 31%, 100% { opacity: 1; } }
+.pv1-ihead { height: 1.8em; flex-shrink: 0; }
+.pv1-ihead b { display: block; font-size: 0.7em; }
+.pv1-ihead span { display: block; font-size: 0.5em; color: var(--color-text-secondary); margin-top: 0.2em; }
+.pv1-row { height: 2em; flex-shrink: 0; display: flex; align-items: center; gap: 0.4em; border-top: 1px solid var(--pv-line); }
+.pv1-row > span { font-size: 0.62em; font-weight: 500; margin-right: auto; }
+.pv-btn { width: 3.6em; height: 1.35em; border-radius: 999px; border: 1px solid rgba(46, 26, 20, 0.2); display: grid; place-items: center; background: var(--pv-white); color: var(--color-text-primary); }
+.pv-btn span { font-size: 0.52em; font-weight: 600; }
+.pv1-pursue { background: var(--color-rose-deep); border-color: var(--color-rose-deep); color: var(--pv-white); animation-name: pv1-pursue; }
+@keyframes pv1-pursue {
+  0%, 48% { background: var(--pv-white); border-color: rgba(46, 26, 20, 0.2); color: var(--color-text-primary); transform: scale(1); }
+  49% { transform: scale(0.9); }
+  52%, 100% { background: var(--color-rose-deep); border-color: var(--color-rose-deep); color: var(--pv-white); transform: scale(1); }
+}
+
+.pv1-reason { height: 1.9em; flex-shrink: 0; margin: 0.1em 0 0.25em; border: 1px solid var(--color-rose-deep); border-radius: 0.4em; padding: 0 0.6em; display: flex; align-items: center; gap: 0.6em; overflow: hidden; animation-name: pv1-reason; }
+@keyframes pv1-reason {
+  0%, 51% { height: 0; margin: 0; opacity: 0; }
+  57%, 100% { height: 1.9em; margin: 0.1em 0 0.25em; opacity: 1; }
+}
+.pv1-reason em { font-size: 0.44em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-rose-deep); flex-shrink: 0; }
+.pv1-type { font-size: 0.56em; white-space: nowrap; animation-name: pv1-type; }
+@keyframes pv1-type {
+  0%, 57% { clip-path: inset(0 100% 0 0); animation-timing-function: steps(18, end); }
+  70%, 100% { clip-path: inset(0 0 0 0); }
+}
+
+.pv1-cursor { left: 31.9em; top: 15.85em; animation-name: pv1-cursor; }
+@keyframes pv1-cursor {
+  0%    { left: 24em;   top: 22em;   opacity: 0; transform: scale(1); }
+  6%    { left: 24em;   top: 22em;   opacity: 1; }
+  23%   { left: 12.6em; top: 11.2em; transform: scale(1); }
+  26%   { transform: scale(0.82); }
+  29%   { left: 12.6em; top: 11.2em; transform: scale(1); }
+  45%   { left: 31.9em; top: 15.85em; transform: scale(1); }
+  48%   { transform: scale(0.82); }
+  51%   { transform: scale(1); }
+  60%   { left: 31.9em; top: 15.85em; opacity: 1; }
+  70%   { left: 21em;   top: 9.6em;  opacity: 1; }
+  80%, 100% { left: 21em; top: 9.6em; opacity: 0; }
+}
+
+/* ---------------------------------------------------------
+   Card 2: Dexter AI assistant (laptop 32 x 20em, phone
+   20 x 41em). Story: a question types in, Dexter thinks,
+   answers line by line with a source and a next step.
+   --------------------------------------------------------- */
+.pv2 { --pv-dur: 3.8s; font-size: calc(100cqw / 32); }
+.pv2--phone { font-size: calc(100cqw / 20); --pv-delay: 0.35s; }
+
+.pv2-bar { position: absolute; left: 0; right: 0; top: 0; height: 1.9em; background: var(--color-accent-deep); display: flex; align-items: center; padding: 0 1em; gap: 0.4em; }
+.pv2-bar i { width: 0.75em; height: 0.75em; border-radius: 50%; background: var(--color-rose); }
+.pv2-bar b { font-family: var(--font-display); font-size: 0.66em; color: var(--color-bg); margin-right: auto; }
+.pv2-bar span { font-size: 0.48em; color: rgba(250, 248, 244, 0.6); margin-left: 1.6em; }
+.pv2-bar span.is-on { color: var(--color-bg); font-weight: 600; box-shadow: inset 0 -0.25em 0 var(--color-rose); padding-bottom: 0.2em; }
+
+.pv2-doc { position: absolute; left: 0; top: 1.9em; width: 19.6em; bottom: 0; padding: 1em 1.1em; }
+.pv2-doc > b { display: block; font-family: var(--font-display); font-size: 0.86em; }
+.pv2-doc > span { display: block; font-size: 0.46em; color: var(--color-text-secondary); margin-top: 0.3em; }
+.pv2-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5em; margin-top: 0.8em; }
+.pv2-stat { background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.4em; padding: 0.45em 0.55em; }
+.pv2-stat span { display: block; font-size: 0.42em; color: var(--color-text-secondary); }
+.pv2-stat b { display: block; font-size: 0.76em; margin-top: 0.15em; }
+.pv2-chart { margin-top: 0.9em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.4em; padding: 0.55em 0.7em 0.4em; }
+.pv2-chart > b { display: block; font-size: 0.5em; }
+.pv2-bars { display: flex; align-items: flex-end; gap: 0.7em; height: 4.4em; margin-top: 0.4em; }
+.pv2-bars i { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+.pv2-bars i::before { content: ''; display: block; width: 100%; height: var(--h); border-radius: 0.2em 0.2em 0 0; background: var(--color-surface); }
+.pv2-bars i.is-hot::before { background: var(--color-rose-deep); }
+.pv2-bars i span { font-size: 0.38em; color: var(--color-text-secondary); margin-top: 0.3em; }
+
+.pv2-side { position: absolute; left: 19.6em; right: 0; top: 1.9em; bottom: 0; background: var(--color-surface); border-left: 1px solid var(--pv-line); }
+.pv2-head { position: absolute; left: 0.8em; top: 0.75em; }
+.pv2-head b { display: block; font-size: 0.56em; }
+.pv2-head span { display: block; font-size: 0.4em; color: var(--color-text-secondary); margin-top: 0.15em; }
+
+/* Chat parts, shared by laptop and phone */
+.pv2-user { position: absolute; right: 0.8em; top: 2.9em; background: var(--color-rose-deep); color: var(--pv-white); border-radius: 0.7em 0.7em 0.15em 0.7em; padding: 0.4em 0.65em; transform-origin: 100% 100%; animation-name: pv2-user; }
+.pv2-user span { font-size: 0.46em; white-space: nowrap; display: block; }
+@keyframes pv2-user { 0%, 31% { opacity: 0; transform: scale(0.7); } 36%, 100% { opacity: 1; transform: scale(1); } }
+
+.pv2-bot { position: absolute; left: 0.8em; right: 0.8em; top: 4.7em; min-height: 2em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.15em 0.7em 0.7em 0.7em; padding: 0.5em 0.6em; animation-name: pv2-bot; }
+@keyframes pv2-bot { 0%, 37% { opacity: 0; } 40%, 100% { opacity: 1; } }
+.pv2-line { display: block; font-size: 0.44em; line-height: 1.35; animation-name: pv2-line; }
+.pv2-line + .pv2-line { margin-top: 0.25em; }
+.pv2-line:nth-child(3) { animation-name: pv2-line2; }
+.pv2-src { display: inline-block; margin-top: 0.5em; font-size: 0.38em; font-weight: 600; color: var(--color-accent); background: var(--color-surface); border-radius: 999px; padding: 0.2em 0.7em; animation-name: pv2-src; }
+@keyframes pv2-line  { 0%, 55% { opacity: 0; transform: translateY(0.4em); } 60%, 100% { opacity: 1; transform: none; } }
+@keyframes pv2-line2 { 0%, 61% { opacity: 0; transform: translateY(0.4em); } 66%, 100% { opacity: 1; transform: none; } }
+@keyframes pv2-src   { 0%, 67% { opacity: 0; } 71%, 100% { opacity: 1; } }
+
+.pv2-dots { position: absolute; left: 0.7em; top: 0.75em; display: flex; gap: 0.25em; opacity: 0; animation-name: pv2-dots; }
+.pv2-dots i { width: 0.32em; height: 0.32em; border-radius: 50%; background: var(--color-text-secondary); animation-name: pv2-dot; animation-duration: 0.6s; }
+.pv2-dots i:nth-child(2) { animation-delay: 0.12s; }
+.pv2-dots i:nth-child(3) { animation-delay: 0.24s; }
+@keyframes pv2-dots { 0%, 38% { opacity: 0; } 40%, 53% { opacity: 1; } 55%, 100% { opacity: 0; } }
+@keyframes pv2-dot { 0%, 100% { transform: translateY(0); opacity: 0.45; } 50% { transform: translateY(-0.2em); opacity: 1; } }
+
+.pv2-act { position: absolute; left: 0.8em; display: inline-flex; align-items: center; gap: 0.3em; border: 1px solid var(--color-rose-deep); color: var(--color-rose-deep); background: var(--pv-white); border-radius: 999px; padding: 0.3em 0.6em; animation-name: pv2-act; }
+.pv2-act span { font-size: 0.42em; font-weight: 600; white-space: nowrap; }
+@keyframes pv2-act { 0%, 74% { opacity: 0; transform: scale(0.85); } 80%, 100% { opacity: 1; transform: scale(1); } }
+.project-card:hover .pv2-act { box-shadow: 0 0 0 0.25em rgba(168, 85, 95, 0.15); }
+
+.pv2-input { position: absolute; left: 0.8em; right: 0.8em; bottom: 0.8em; height: 1.7em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 999px; display: flex; align-items: center; padding: 0 0.3em 0 0.7em; }
+.pv2-input > span { font-size: 0.44em; white-space: nowrap; margin-right: auto; color: var(--color-text-secondary); animation-name: pv2-ph; }
+@keyframes pv2-ph { 0%, 1% { opacity: 1; } 3%, 31% { opacity: 0; } 33%, 100% { opacity: 1; } }
+.pv2-typed { position: absolute; left: 0.7em; top: 50%; transform: translateY(-50%); }
+.pv2-typed span { font-size: 0.44em; white-space: nowrap; display: block; color: var(--color-text-primary); background: var(--pv-white); opacity: 0; animation-name: pv2-type; }
+@keyframes pv2-type {
+  0%, 3% { opacity: 1; clip-path: inset(0 100% 0 0); animation-timing-function: steps(22, end); }
+  28%, 31% { opacity: 1; clip-path: inset(0 0 0 0); }
+  32%, 100% { opacity: 0; clip-path: inset(0 0 0 0); }
+}
+.pv2-send { width: 1.2em; height: 1.2em; border-radius: 50%; background: var(--color-rose-deep); display: grid; place-items: center; animation-name: pv2-send; }
+.pv2-send::before { content: ''; width: 0.35em; height: 0.35em; border-top: 0.12em solid var(--pv-white); border-right: 0.12em solid var(--pv-white); transform: translateY(0.08em) rotate(-45deg); }
+@keyframes pv2-send { 0%, 29% { transform: scale(1); } 31% { transform: scale(0.8); } 34%, 100% { transform: scale(1); } }
+
+/* Phone layout (20 x 41em) */
+.pv2--phone .pv2-status { position: absolute; left: 1.6em; right: 1.6em; top: 1em; display: flex; justify-content: space-between; }
+.pv2--phone .pv2-status span { font-size: 0.7em; font-weight: 700; }
+.pv2--phone .pv2-status i { width: 2.2em; height: 0.9em; border-radius: 0.25em; border: 1px solid var(--color-text-primary); }
+.pv2--phone .pv2-ptop { position: absolute; left: 0; right: 0; top: 3em; height: 4em; border-bottom: 1px solid var(--pv-line); padding: 0.6em 1.4em; display: flex; align-items: center; gap: 0.7em; }
+.pv2--phone .pv2-ptop i { width: 2em; height: 2em; border-radius: 50%; background: var(--color-rose); flex-shrink: 0; }
+.pv2--phone .pv2-ptop b { display: block; font-family: var(--font-display); font-size: 1.1em; }
+.pv2--phone .pv2-ptop span { display: block; font-size: 0.62em; color: var(--color-text-secondary); }
+.pv2--phone .pv2-user { right: 1.3em; top: 8.6em; padding: 0.7em 1em; }
+.pv2--phone .pv2-user span { font-size: 0.8em; }
+.pv2--phone .pv2-bot { left: 1.3em; right: 1.3em; top: 12.4em; padding: 0.9em 1em; min-height: 3.4em; }
+.pv2--phone .pv2-line { font-size: 0.78em; }
+.pv2--phone .pv2-src { font-size: 0.66em; }
+.pv2--phone .pv2-dots { left: 1.1em; top: 1.3em; }
+.pv2--phone .pv2-dots i { width: 0.6em; height: 0.6em; }
+.pv2--phone .pv2-act { left: 1.3em; top: 20.4em; padding: 0.55em 1em; }
+.pv2--phone .pv2-act span { font-size: 0.72em; }
+.pv2--phone .pv2-input { left: 1.3em; right: 1.3em; bottom: 1.8em; height: 3em; padding: 0 0.45em 0 1.1em; }
+.pv2--phone .pv2-input > span, .pv2--phone .pv2-typed span { font-size: 0.76em; }
+.pv2--phone .pv2-typed { left: 1.1em; }
+.pv2--phone .pv2-send { width: 2.1em; height: 2.1em; }
+.pv2--phone .pv2-send::before { width: 0.6em; height: 0.6em; border-width: 0.2em; }
+
+/* ---------------------------------------------------------
+   Card 3: seller home page (browser, 40 x 23em viewport,
+   37em tall page). Story: the goal KPI counts up, the page
+   scrolls to "Needs attention today," a row gets hovered.
+   --------------------------------------------------------- */
+@property --pv-n { syntax: '<integer>'; inherits: true; initial-value: 68; }
+
+.pv3 { --pv-dur: 4s; }
+.pv3-page { position: absolute; left: 0; right: 0; top: 0; height: 37em; background: var(--color-bg); animation-name: pv3-scroll; }
+@keyframes pv3-scroll {
+  0%, 34% { transform: translateY(0); }
+  54%, 100% { transform: translateY(-8.5em); }
+}
+
+.pv3-top { position: absolute; left: 0; right: 0; top: 0; height: 2.3em; background: var(--pv-white); border-bottom: 1px solid var(--pv-line); display: flex; align-items: center; padding: 0 1.2em; gap: 1.3em; }
+.pv3-top > i { width: 1em; height: 1em; border-radius: 0.25em; background: var(--color-rose-deep); }
+.pv3-top > span { font-size: 0.56em; color: var(--color-text-secondary); }
+.pv3-top > span.is-on { color: var(--color-text-primary); font-weight: 700; box-shadow: inset 0 -0.2em 0 var(--color-rose-deep); padding-bottom: 0.25em; }
+.pv3-top > em { margin-left: auto; width: 1.4em; height: 1.4em; border-radius: 50%; background: var(--color-rose); }
+
+.pv3-greet { position: absolute; left: 1.2em; top: 3.4em; }
+.pv3-greet b { display: block; font-family: var(--font-display); font-size: 1.35em; }
+.pv3-greet span { display: flex; align-items: center; gap: 0.5em; font-size: 0.54em; color: var(--color-text-secondary); margin-top: 0.4em; }
+.pv3-greet span::before { content: ''; width: 0.7em; height: 0.7em; border-radius: 50%; background: #7FA37A; }
+
+.pv3-kpis { position: absolute; left: 1.2em; right: 1.2em; top: 7.3em; height: 5.6em; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8em; }
+.pv3-kpi { background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.5em; padding: 0.65em 0.8em; min-width: 0; }
+.pv3-kpi > span { display: block; font-size: 0.5em; color: var(--color-text-secondary); white-space: nowrap; }
+.pv3-kpi > b { display: block; font-family: var(--font-display); font-size: 1.25em; margin-top: 0.1em; }
+.pv3-kpi > em { display: block; font-size: 0.48em; color: var(--color-text-secondary); margin-top: 0.3em; white-space: nowrap; }
+.pv3-kpi > em.is-up { color: #5E8A59; }
+.pv3-goal { margin-top: 0.45em; display: flex; align-items: center; gap: 0.5em; }
+.pv3-goal i { flex: 1; height: 0.35em; border-radius: 999px; background: var(--pv-soft); overflow: hidden; }
+.pv3-goal i::before { content: ''; display: block; height: 100%; width: calc(var(--pv-n) * 1%); background: var(--color-rose-deep); border-radius: 999px; }
+.pv3-goal em { font-size: 0.48em; font-weight: 700; color: var(--color-rose-deep); white-space: nowrap; }
+.pv3-goal em::before { counter-reset: pvn var(--pv-n); content: counter(pvn) "% to goal"; }
+.pv3-count { --pv-n: 68; animation-name: pv3-count; }
+@keyframes pv3-count {
+  0%, 6% { --pv-n: 0; }
+  34%, 100% { --pv-n: 68; }
+}
+
+.pv3-sec { position: absolute; left: 1.2em; right: 1.2em; display: flex; justify-content: space-between; align-items: baseline; }
+.pv3-sec b { font-size: 0.74em; }
+.pv3-sec span { font-size: 0.52em; color: var(--color-rose-deep); font-weight: 600; }
+
+.pv3-table { position: absolute; left: 1.2em; right: 1.2em; top: 15.6em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.5em; overflow: hidden; }
+.pv3-tr { display: grid; grid-template-columns: 2.3fr 1.1fr 1.6fr 0.7fr; align-items: center; height: 2.25em; padding: 0 0.9em; border-top: 1px solid var(--pv-line); position: relative; }
+.pv3-tr > span { font-size: 0.56em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pv3-tr > span:first-child { font-weight: 600; }
+.pv3-tr .pv-chip { justify-self: start; font-size: 0.48em; }
+.pv3-th { height: 1.7em; border-top: none; background: var(--pv-soft); }
+.pv3-th > span, .pv3-th > span:first-child { font-size: 0.44em; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-secondary); }
+.pv3-hot { background: var(--color-surface); box-shadow: inset 0.2em 0 0 var(--color-rose-deep); animation-name: pv3-hot; }
+@keyframes pv3-hot {
+  0%, 61% { background: transparent; box-shadow: inset 0 0 0 transparent; }
+  64%, 100% { background: var(--color-surface); box-shadow: inset 0.2em 0 0 var(--color-rose-deep); }
+}
+
+.pv3-pipe { position: absolute; left: 1.2em; right: 1.2em; top: 29.2em; }
+.pv3-pipe div { display: flex; align-items: center; gap: 0.6em; height: 1.6em; }
+.pv3-pipe span { width: 9em; font-size: 0.52em; color: var(--color-text-secondary); flex-shrink: 0; }
+.pv3-pipe i { height: 0.7em; width: var(--w); border-radius: 999px; background: var(--color-rose); }
+
+.pv3-cursor { left: 20em; top: 12.3em; animation-name: pv3-cursor; }
+@keyframes pv3-cursor {
+  0%, 50% { left: 31em; top: 21.5em; opacity: 0; }
+  53% { left: 31em; top: 21.5em; opacity: 1; }
+  62% { left: 20em; top: 12.3em; opacity: 1; }
+  84% { left: 20em; top: 12.3em; opacity: 1; }
+  88%, 100% { left: 20em; top: 12.3em; opacity: 0; }
+}
+
+/* ---------------------------------------------------------
+   Card 4: work item queue (board, 40 x 23em). Story: grab
+   an incoming item, drag it to Assigned, an owner fills in
+   and the column counts update.
+   --------------------------------------------------------- */
+.pv4 { --pv-dur: 3.8s; }
+
+.pv4-bar { position: absolute; left: 1.2em; right: 1.2em; top: 0.9em; display: flex; align-items: center; gap: 0.5em; }
+.pv4-bar b { font-family: var(--font-display); font-size: 0.8em; margin-right: auto; }
+.pv4-bar span { font-size: 0.48em; font-weight: 600; border: 1px solid var(--pv-line); background: var(--pv-white); border-radius: 999px; padding: 0.25em 0.8em; color: var(--color-text-secondary); }
+
+.pv4-col { position: absolute; top: 3.2em; bottom: 0.9em; width: 12em; background: var(--pv-soft); border-radius: 0.5em; }
+.pv4-col--1 { left: 1.2em; }
+.pv4-col--2 { left: 14em; }
+.pv4-col--3 { left: 26.8em; }
+.pv4-colhead { position: absolute; left: 0.6em; right: 0.6em; top: 0.6em; display: flex; align-items: center; gap: 0.4em; }
+.pv4-colhead > span { font-size: 0.56em; font-weight: 700; }
+.pv4-count { display: inline-grid; font-size: 0.46em; font-weight: 700; }
+.pv4-count span { grid-area: 1 / 1; background: rgba(46, 26, 20, 0.1); border-radius: 999px; padding: 0.15em 0.65em; text-align: center; }
+.pv4-count .pv4-was { opacity: 0; animation-name: pv4-was; }
+.pv4-count .pv4-now { animation-name: pv4-now; }
+@keyframes pv4-was { 0%, 52% { opacity: 1; } 54%, 100% { opacity: 0; } }
+@keyframes pv4-now { 0%, 52% { opacity: 0; } 54%, 100% { opacity: 1; } }
+
+.pv4-card { position: absolute; width: 10.8em; height: 3.5em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.4em; padding: 0.5em 0.6em; transition: box-shadow 0.4s var(--ease); }
+.pv4-card > b { display: block; font-size: 0.56em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 2.6em; }
+.pv4-meta { display: flex; align-items: center; gap: 0.4em; margin-top: 0.55em; }
+.pv4-meta i { width: 0.5em; height: 0.5em; border-radius: 50%; background: #C9A25A; flex-shrink: 0; }
+.pv4-meta i.is-hi { background: var(--color-rose-deep); }
+.pv4-meta i.is-lo { background: #9DB29A; }
+.pv4-meta span { font-size: 0.46em; color: var(--color-text-secondary); white-space: nowrap; }
+.pv4-meta em { font-size: 0.42em; font-weight: 600; color: var(--color-accent); background: var(--color-surface); border-radius: 999px; padding: 0.1em 0.6em; white-space: nowrap; }
+.pv4-av { position: absolute; right: 0.5em; top: 0.5em; width: 1.3em; height: 1.3em; border-radius: 50%; display: grid; place-items: center; background: var(--color-rose); color: var(--pv-white); }
+.pv4-av span { font-size: 0.42em; font-weight: 700; }
+.pv4-av.is-empty { background: transparent; border: 1px dashed rgba(46, 26, 20, 0.35); }
+.project-card:hover .pv4-card { box-shadow: 0 0.3em 0.6em -0.4em rgba(31, 17, 12, 0.3); }
+
+/* Positions: finished frame is the base, keyframes start from the
+   "before" layout. Card columns sit at x 1.8 / 14.6 / 27.4em, slots
+   at y 5.3 / 9.3 / 13.3em. */
+.pv4-a { left: 27.4em; top: 5.3em; z-index: 4; animation-name: pv4-a; }
+@keyframes pv4-a {
+  0%, 14% { left: 1.8em; transform: none; box-shadow: none; }
+  17% { left: 1.8em; transform: scale(1.06) rotate(-3deg); box-shadow: 0 0.8em 1.2em -0.6em rgba(31, 17, 12, 0.45); }
+  48% { left: 27.4em; transform: scale(1.06) rotate(2deg); box-shadow: 0 0.8em 1.2em -0.6em rgba(31, 17, 12, 0.45); }
+  52%, 100% { left: 27.4em; transform: none; box-shadow: none; }
+}
+.pv4-a .pv4-av { animation-name: pv4-fill; }
+.pv4-a .pv4-av span { animation-name: pv4-initials; }
+@keyframes pv4-fill {
+  0%, 52% { background: transparent; border: 1px dashed rgba(46, 26, 20, 0.35); transform: scale(1); }
+  56% { background: var(--color-rose-deep); border: 1px solid var(--color-rose-deep); transform: scale(1.3); }
+  62%, 100% { background: var(--color-rose-deep); border: 1px solid var(--color-rose-deep); transform: scale(1); }
+}
+.pv4-a .pv4-av { background: var(--color-rose-deep); }
+@keyframes pv4-initials { 0%, 53% { opacity: 0; } 56%, 100% { opacity: 1; } }
+
+.pv4-b { left: 1.8em; top: 5.3em; animation-name: pv4-up1; }
+.pv4-c { left: 1.8em; top: 9.3em; animation-name: pv4-up2; }
+@keyframes pv4-up1 { 0%, 24% { top: 9.3em; } 36%, 100% { top: 5.3em; } }
+@keyframes pv4-up2 { 0%, 27% { top: 13.3em; } 39%, 100% { top: 9.3em; } }
+.pv4-d { left: 14.6em; top: 5.3em; }
+.pv4-e { left: 27.4em; top: 9.3em; animation-name: pv4-dn1; }
+.pv4-f { left: 27.4em; top: 13.3em; animation-name: pv4-dn2; }
+@keyframes pv4-dn1 { 0%, 36% { top: 5.3em; } 47%, 100% { top: 9.3em; } }
+@keyframes pv4-dn2 { 0%, 33% { top: 9.3em; } 44%, 100% { top: 13.3em; } }
+
+.pv4-slot { position: absolute; left: 1.8em; top: 5.3em; width: 10.8em; height: 3.5em; border: 1px dashed rgba(46, 26, 20, 0.3); border-radius: 0.4em; opacity: 0; animation-name: pv4-slot; }
+@keyframes pv4-slot { 0%, 15% { opacity: 0; } 18%, 22% { opacity: 1; } 28%, 100% { opacity: 0; } }
+
+.pv4-cursor { left: 35em; top: 17em; animation-name: pv4-cursor; }
+@keyframes pv4-cursor {
+  0%    { left: 21em;  top: 19em;  opacity: 0; transform: scale(1); }
+  5%    { left: 21em;  top: 19em;  opacity: 1; }
+  14%   { left: 8.6em; top: 6.6em; transform: scale(1); }
+  16%   { transform: scale(0.85); }
+  48%   { left: 34.2em; top: 6.6em; transform: scale(0.85); }
+  52%   { left: 34.2em; top: 6.6em; transform: scale(1); opacity: 1; }
+  66%   { left: 35em; top: 17em; opacity: 1; }
+  74%, 100% { left: 35em; top: 17em; opacity: 0; }
+}
+
+/* Reduced motion: no loops, just the finished frame */
+@media (prefers-reduced-motion: reduce) {
+  .pv-fade, .pv-fade *, .pv-fade *::before, .pv-fade *::after { animation: none !important; }
+  .pv-cursor { display: none; }
+}
+
 </style>
 </head>
 <body>
@@ -1665,16 +2125,45 @@ section {
         <div class="project-card__media media-laptop" aria-hidden="true">
           <div class="device-laptop">
             <div class="device-laptop__screen">
-              <div class="ui-navbar"><i></i><i></i><i></i><i></i></div>
-              <div class="ui-hero"></div>
-              <div class="ui-tiles"><i></i><i></i><i></i></div>
+              <div class="pv pv1">
+                <div class="pv-fade">
+                  <div class="pv1-nav"><i class="pv1-logo"></i><i class="is-on"></i><i></i><i></i><i></i></div>
+                  <div class="pv1-greet"><b>Good morning, Jordan</b><span>4 items need your review today</span></div>
+                  <div class="pv1-search"><span>Search accounts or IDs</span></div>
+                  <div class="pv1-avatar"><span>JR</span></div>
+                  <div class="pv1-cards">
+                    <div class="pv1-card"><b>Harbor Logistics Co.</b><span>ACCT-20418 &middot; Property, GL, Auto</span><em class="pv-chip pv1-flip"><span class="pv1-a">In review</span><span class="pv1-b">Pursued</span></em></div>
+                    <div class="pv1-card"><b>Northfield Dairy</b><span>ACCT-31907 &middot; Property, Auto</span><em class="pv-chip pv-chip--go"><span>Pursue</span></em></div>
+                    <div class="pv1-card"><b>Calder Marine</b><span>ACCT-18822 &middot; Inland marine</span><em class="pv-chip pv-chip--off"><span>Declined</span></em></div>
+                  </div>
+                  <div class="pv1-tab pv1-tab--1"><span>My tasks</span></div>
+                  <div class="pv1-tab pv1-tab--2"><span>Intake review</span><em>3</em></div>
+                  <i class="pv1-ind"></i>
+                  <div class="pv1-panel">
+                    <div class="pv1-tasks">
+                      <div class="pv1-task"><i></i><span>Review loss runs for Calder Marine</span><em class="is-hot">Today</em></div>
+                      <div class="pv1-task"><i></i><span>Confirm assignment for Northfield Dairy</span><em class="is-hot">Today</em></div>
+                      <div class="pv1-task"><i></i><span>Renewal prep for Pine Ridge Storage</span><em>Wed</em></div>
+                      <div class="pv1-task"><i></i><span>Reply to broker note on Harbor Logistics</span><em>Thu</em></div>
+                    </div>
+                    <div class="pv1-intake">
+                      <div class="pv1-ihead"><b>Harbor Logistics Co.</b><span>Unique account identifier ACCT-20418 &middot; 3 lines of business</span></div>
+                      <div class="pv1-row"><span>Property</span><i class="pv-btn pv1-pursue"><span>Pursue</span></i><i class="pv-btn"><span>Decline</span></i></div>
+                      <div class="pv1-reason"><em>Reason</em><span class="pv1-type">Clean 5-year loss history, within appetite</span></div>
+                      <div class="pv1-row"><span>General liability</span><i class="pv-btn"><span>Pursue</span></i><i class="pv-btn"><span>Decline</span></i></div>
+                      <div class="pv1-row"><span>Commercial auto</span><i class="pv-btn"><span>Pursue</span></i><i class="pv-btn"><span>Decline</span></i></div>
+                    </div>
+                  </div>
+                  <svg class="pv-cursor pv1-cursor" viewBox="0 0 12 16"><path d="M1 1 L1 13.2 L4.1 10.3 L6.4 15 L8.5 14 L6.3 9.4 L10.6 9.4 Z"/></svg>
+                </div>
+              </div>
             </div>
             <div class="device-laptop__base"></div>
           </div>
         </div>
         <div class="project-card__body">
           <span class="project-card__title">Travelers OneTrav</span>
-          <p class="project-card__desc">One of the largest redesigns in Travelers' history — unifying several enterprise systems into a single platform for collaboration and transparency, built for underwriting teams.</p>
+          <p class="project-card__desc">One of the largest redesigns in Travelers' history, unifying several enterprise systems into a single platform for collaboration and transparency, built for underwriting teams.</p>
           <div class="project-card__tags">
             <span class="tag">Product Design</span>
             <span class="tag">Research</span>
@@ -1687,16 +2176,54 @@ section {
           <div class="project-card__badge">Shipped</div>
           <div class="device-laptop">
             <div class="device-laptop__screen">
-              <div class="ui-navbar"><i></i><i></i><i></i></div>
-              <div class="ui-hero"></div>
+              <div class="pv pv2">
+                <div class="pv-fade">
+                  <div class="pv2-bar"><i></i><b>Dexter</b><span class="is-on">Ask</span><span>Pinned</span><span>Guide</span><span>Archive</span></div>
+                  <div class="pv2-doc">
+                    <b>Calder Marine</b><span>Renewal &middot; Effective 03/01 &middot; Pinned deal data</span>
+                    <div class="pv2-stats">
+                      <div class="pv2-stat"><span>Premium</span><b>$412K</b></div>
+                      <div class="pv2-stat"><span>Loss ratio</span><b>38%</b></div>
+                      <div class="pv2-stat"><span>Claims, 5 yr</span><b>4</b></div>
+                    </div>
+                    <div class="pv2-chart"><b>Loss history</b>
+                      <div class="pv2-bars"><i style="--h:30%"><span>2021</span></i><i style="--h:22%"><span>2022</span></i><i class="is-hot" style="--h:88%"><span>2023</span></i><i style="--h:26%"><span>2024</span></i><i style="--h:18%"><span>2025</span></i></div>
+                    </div>
+                  </div>
+                  <div class="pv2-side">
+                    <div class="pv2-head"><b>Ask Dexter</b><span>I&rsquo;ll flag when to verify</span></div>
+                    <div class="pv2-user"><span>What&rsquo;s driving losses?</span></div>
+                  <div class="pv2-bot">
+                    <div class="pv2-dots"><i></i><i></i><i></i></div>
+                    <span class="pv2-line">Two water claims in 2023 drive most of it.</span>
+                    <span class="pv2-line">Frequency has been flat since 2024.</span>
+                    <span class="pv2-src">Source: loss runs, p. 3</span>
+                  </div>
+                  <div class="pv2-act" style="top:9.3em"><span>Suggested action: Add to summary</span></div>
+                  <div class="pv2-input"><span>Ask about this deal&hellip;</span><div class="pv2-typed"><span>What&rsquo;s driving losses?</span></div><i class="pv2-send"></i></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="device-laptop__base"></div>
           </div>
           <div class="device-phone">
             <div class="device-phone__screen">
-              <div class="ui-navbar"><i></i><i></i></div>
-              <div class="ui-hero"></div>
-              <div class="ui-tiles ui-tiles--stack"><i></i><i></i></div>
+              <div class="pv pv2 pv2--phone">
+                <div class="pv-fade">
+                  <div class="pv2-status"><span>9:41</span><i></i></div>
+                  <div class="pv2-ptop"><i></i><div><b>Dexter</b><span>Calder Marine</span></div></div>
+                  <div class="pv2-user"><span>What&rsquo;s driving losses?</span></div>
+                  <div class="pv2-bot">
+                    <div class="pv2-dots"><i></i><i></i><i></i></div>
+                    <span class="pv2-line">Two water claims in 2023 drive most of it.</span>
+                    <span class="pv2-line">Frequency has been flat since 2024.</span>
+                    <span class="pv2-src">Source: loss runs, p. 3</span>
+                  </div>
+                  <div class="pv2-act"><span>Suggested action: Add to summary</span></div>
+                  <div class="pv2-input"><span>Ask about this deal&hellip;</span><div class="pv2-typed"><span>What&rsquo;s driving losses?</span></div><i class="pv2-send"></i></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1719,14 +2246,33 @@ section {
               <span class="bar"></span>
             </div>
             <div class="device-browser__viewport">
-              <div class="device-browser__page">
-                <div class="ui-section">
-                  <div class="ui-hero"></div>
-                  <div class="ui-tiles"><i></i><i></i><i></i></div>
-                </div>
-                <div class="ui-section ui-section--alt">
-                  <div class="ui-hero"></div>
-                  <div class="ui-tiles"><i></i><i></i></div>
+              <div class="pv pv3">
+                <div class="pv-fade">
+                  <div class="pv3-page">
+                    <div class="pv3-top"><i></i><span class="is-on">Home</span><span>Accounts</span><span>Pipeline</span><span>Reports</span><em></em></div>
+                    <div class="pv3-greet"><b>Good morning, Jordan</b><span>Data as of 8:02 AM &middot; Source: policy system</span></div>
+                    <div class="pv3-kpis">
+                      <div class="pv3-kpi"><span>New business premium</span><b>$1.2M</b><div class="pv3-goal pv3-count"><i></i><em></em></div></div>
+                      <div class="pv3-kpi"><span>Retention</span><b>91%</b><em class="is-up">+2 pts vs. last year</em></div>
+                      <div class="pv3-kpi"><span>Renewals due, 30 days</span><b>14</b><em>3 need attention</em></div>
+                    </div>
+                    <div class="pv3-sec" style="top:14.1em"><b>Needs attention today</b><span>View all</span></div>
+                    <div class="pv3-table">
+                      <div class="pv3-tr pv3-th"><span>Account</span><span>Stage</span><span>Next step</span><span>Due</span></div>
+                      <div class="pv3-tr"><span>Harbor Logistics Co.</span><em class="pv-chip pv-chip--go"><span>Quote</span></em><span>Send proposal</span><span>Today</span></div>
+                      <div class="pv3-tr pv3-hot"><span>Northfield Dairy</span><em class="pv-chip pv-chip--wait"><span>Renewal</span></em><span>Review loss runs</span><span>Tue</span></div>
+                      <div class="pv3-tr"><span>Calder Marine</span><em class="pv-chip pv-chip--off"><span>Submission</span></em><span>Clear with underwriting</span><span>Wed</span></div>
+                      <div class="pv3-tr"><span>Pine Ridge Storage</span><em class="pv-chip pv-chip--wait"><span>Renewal</span></em><span>Call agency</span><span>Fri</span></div>
+                    </div>
+                    <div class="pv3-sec" style="top:27.6em"><b>Pipeline by stage</b><span>This quarter</span></div>
+                    <div class="pv3-pipe">
+                      <div><span>Submission</span><i style="--w:72%"></i></div>
+                      <div><span>Quote</span><i style="--w:54%"></i></div>
+                      <div><span>Bound</span><i style="--w:38%"></i></div>
+                      <div><span>Renewal</span><i style="--w:61%"></i></div>
+                    </div>
+                  </div>
+                  <svg class="pv-cursor pv3-cursor" viewBox="0 0 12 16"><path d="M1 1 L1 13.2 L4.1 10.3 L6.4 15 L8.5 14 L6.3 9.4 L10.6 9.4 Z"/></svg>
                 </div>
               </div>
             </div>
@@ -1748,17 +2294,22 @@ section {
               <span class="dot dot--accent"></span><span class="dot"></span><span class="dot"></span>
               <span class="bar"></span>
             </div>
-            <div class="device-board__columns">
-              <div class="device-board__col">
-                <i class="device-board__card"></i>
-                <i class="device-board__card"></i>
-              </div>
-              <div class="device-board__col">
-                <i class="device-board__card device-board__card--accent"></i>
-              </div>
-              <div class="device-board__col">
-                <i class="device-board__card"></i>
-                <i class="device-board__card"></i>
+            <div class="device-board__body">
+              <div class="pv pv4">
+                <div class="pv-fade">
+                  <div class="pv4-bar"><b>Work item queue</b><span>Skill: Property</span><span>Sort: SLA</span></div>
+                  <div class="pv4-col pv4-col--1"><div class="pv4-colhead"><span>Incoming</span><em class="pv4-count"><span class="pv4-was">3</span><span class="pv4-now">2</span></em></div></div>
+                  <div class="pv4-col pv4-col--2"><div class="pv4-colhead"><span>Triaged</span><em class="pv4-count"><span>1</span></em></div></div>
+                  <div class="pv4-col pv4-col--3"><div class="pv4-colhead"><span>Assigned</span><em class="pv4-count"><span class="pv4-was">2</span><span class="pv4-now">3</span></em></div></div>
+                  <i class="pv4-slot"></i>
+                  <div class="pv4-card pv4-b"><b>Loss run request</b><div class="pv4-meta"><i class=""></i><span>SLA 1d</span><em>Auto</em></div><i class="pv4-av is-empty"><span></span></i></div>
+                  <div class="pv4-card pv4-c"><b>Certificate of insurance</b><div class="pv4-meta"><i class="is-lo"></i><span>SLA 3d</span><em>GL</em></div><i class="pv4-av is-empty"><span></span></i></div>
+                  <div class="pv4-card pv4-d"><b>Policy change: add vehicle</b><div class="pv4-meta"><i class=""></i><span>SLA 6h</span><em>Auto</em></div><i class="pv4-av is-empty"><span></span></i></div>
+                  <div class="pv4-card pv4-e"><b>Renewal review</b><div class="pv4-meta"><i class=""></i><span>SLA 2d</span><em>Property</em></div><i class="pv4-av"><span>AL</span></i></div>
+                  <div class="pv4-card pv4-f"><b>Billing question</b><div class="pv4-meta"><i class="is-lo"></i><span>SLA 4d</span></div><i class="pv4-av"><span>DS</span></i></div>
+                  <div class="pv4-card pv4-a"><b>Endorsement: add location</b><div class="pv4-meta"><i class="is-hi"></i><span>SLA 2h</span><em>Property</em></div><i class="pv4-av"><span>MK</span></i></div>
+                  <svg class="pv-cursor pv4-cursor" viewBox="0 0 12 16"><path d="M1 1 L1 13.2 L4.1 10.3 L6.4 15 L8.5 14 L6.3 9.4 L10.6 9.4 Z"/></svg>
+                </div>
               </div>
             </div>
           </div>
@@ -1818,6 +2369,21 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach((el) => observer.observe(el));
   } else {
     revealEls.forEach((el) => el.classList.add('is-visible'));
+  }
+
+  // Card previews: the mini UIs inside each case study card only loop
+  // while that card is actually on screen (including inside the
+  // horizontal carousel), so offscreen cards cost nothing.
+  const pvCards = document.querySelectorAll('.case-studies .project-card');
+  if ('IntersectionObserver' in window && pvCards.length) {
+    const pvObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle('pv-on', entry.isIntersecting);
+      });
+    }, { threshold: 0.35 });
+    pvCards.forEach((card) => pvObserver.observe(card));
+  } else {
+    pvCards.forEach((card) => card.classList.add('pv-on'));
   }
 
   // Case-study carousel: prev/next buttons scroll by one card width
