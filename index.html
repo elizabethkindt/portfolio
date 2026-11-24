@@ -846,10 +846,8 @@ nav[aria-label="Primary"] {
   /* padding-top/bottom only — a shorthand here would zero out the
      left/right padding inherited from .wrap and misalign the hero
      text against the header and every other section on the page. */
-  /* Trimmed (was space-5 / space-3) so the top of the case study
-     cards shows on a laptop screen without scrolling. */
-  padding-top: 28px;
-  padding-bottom: 12px;
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-3);
   display: grid;
   grid-template-columns: 1.4fr 0.6fr;
   gap: var(--space-5);
@@ -1035,9 +1033,7 @@ nav[aria-label="Primary"] {
 .hero__photo-wrap {
   position: relative;
   width: 100%;
-  /* Was 300px. At 236px the photo column matches the height of the
-     hero text, so it no longer pushes the case studies below the fold. */
-  max-width: 236px;
+  max-width: 300px;
 }
 
 .hero__photo-accent {
@@ -1352,7 +1348,7 @@ section {
    top padding (4rem) stacked on top of the hero's own bottom padding,
    which read as two separate sections rather than one page. */
 .case-studies {
-  padding-top: 12px;
+  padding-top: var(--space-3);
 }
 
 .reveal {
