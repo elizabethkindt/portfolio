@@ -1647,11 +1647,8 @@ section {
 .project-card.pv-on .pv-fade,
 .project-card.pv-on .pv-fade * { animation-play-state: running; }
 
-.pv-fade { animation-name: pv-fade; animation-timing-function: linear; }
 @keyframes pv-fade {
-  0% { opacity: 0; }
-  3%, 91% { opacity: 1; }
-  96%, 100% { opacity: 0; }
+  0%, 100% { opacity: 1; }
 }
 
 /* Shared bits */
@@ -1712,8 +1709,16 @@ section {
 .pv1-flip { border-radius: 999px; animation-name: pv1-ring; }
 .pv1-flip .pv1-a { background: var(--k-wait-bg); color: var(--k-wait-ink); opacity: 0; animation-name: pv1-chip-a; }
 .pv1-flip .pv1-b { background: var(--k-done); color: var(--pv-white); animation-name: pv1-chip-b; }
-@keyframes pv1-chip-a { 0%, 71% { opacity: 1; } 75%, 100% { opacity: 0; } }
-@keyframes pv1-chip-b { 0%, 71% { opacity: 0; } 75%, 100% { opacity: 1; } }
+@keyframes pv1-chip-a {
+  0%, 71% { opacity: 1; }
+  75%, 89% { opacity: 0; }
+  93%, 100% { opacity: 1; }
+}
+@keyframes pv1-chip-b {
+  0%, 71% { opacity: 0; }
+  75%, 89% { opacity: 1; }
+  93%, 100% { opacity: 0; }
+}
 @keyframes pv1-ring {
   0%, 72% { box-shadow: 0 0 0 0 var(--k-pulse); }
   86%, 100% { box-shadow: 0 0 0 0.9em var(--k-pulse-0); }
@@ -1725,18 +1730,27 @@ section {
 .pv1-tab--2 { left: 9.6em; width: 6.6em; }
 .pv1-tab--2 span { color: var(--k-ink); animation-name: pv1-tab2; }
 .pv1-tab em { font-size: 0.46em; font-weight: 700; background: var(--k-accent); color: var(--pv-white); border-radius: 999px; padding: 0.15em 0.6em; }
-@keyframes pv1-tab2 { 0%, 26% { color: var(--k-muted); } 30%, 92% { color: var(--k-ink); } 97%, 100% { color: var(--k-muted); } }
+@keyframes pv1-tab2 {
+  0%, 26% { color: var(--k-muted); }
+  30%, 87% { color: var(--k-ink); }
+  91%, 100% { color: var(--k-muted); }
+}
 
 .pv1-ind { position: absolute; top: 12.05em; height: 0.16em; left: 9.6em; width: 6.6em; border-radius: 999px; background: var(--k-accent); animation-name: pv1-ind; }
 @keyframes pv1-ind {
   0%, 26% { left: 4.4em; width: 3.4em; }
-  31%, 100% { left: 9.6em; width: 6.6em; }
+  31%, 87% { left: 9.6em; width: 6.6em; }
+  92%, 100% { left: 4.4em; width: 3.4em; }
 }
 
 .pv1-panel { position: absolute; left: 4.4em; right: 1.3em; top: 12.6em; bottom: 1.1em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.55em; overflow: hidden; }
 
 .pv1-tasks { position: absolute; inset: 0; padding: 0.3em 0.9em; opacity: 0; animation-name: pv1-tasks; }
-@keyframes pv1-tasks { 0%, 27% { opacity: 1; } 31%, 100% { opacity: 0; } }
+@keyframes pv1-tasks {
+  0%, 27% { opacity: 1; }
+  31%, 87% { opacity: 0; }
+  91%, 100% { opacity: 1; }
+}
 .pv1-task { height: 2.15em; display: flex; align-items: center; gap: 0.6em; border-bottom: 1px solid var(--pv-line); }
 .pv1-task:last-child { border-bottom: none; }
 .pv1-task i { width: 0.85em; height: 0.85em; border-radius: 50%; border: 1px solid rgba(46, 26, 20, 0.3); flex-shrink: 0; }
@@ -1745,7 +1759,11 @@ section {
 .pv1-task em.is-hot { color: var(--k-accent); background: var(--k-accent-soft); }
 
 .pv1-intake { position: absolute; inset: 0; padding: 0.55em 0.8em; display: flex; flex-direction: column; animation-name: pv1-intake; }
-@keyframes pv1-intake { 0%, 27% { opacity: 0; } 31%, 100% { opacity: 1; } }
+@keyframes pv1-intake {
+  0%, 27% { opacity: 0; }
+  31%, 87% { opacity: 1; }
+  91%, 100% { opacity: 0; }
+}
 .pv1-ihead { height: 1.8em; flex-shrink: 0; }
 .pv1-ihead b { display: block; font-size: 0.7em; }
 .pv1-ihead span { display: block; font-size: 0.5em; color: var(--k-muted); margin-top: 0.2em; }
@@ -1757,34 +1775,39 @@ section {
 @keyframes pv1-pursue {
   0%, 48% { background: var(--pv-white); border-color: rgba(46, 26, 20, 0.2); color: var(--k-ink); transform: scale(1); }
   49% { transform: scale(0.9); }
-  52%, 100% { background: var(--k-accent); border-color: var(--k-accent); color: var(--pv-white); transform: scale(1); }
+  52%, 91% { background: var(--k-accent); border-color: var(--k-accent); color: var(--pv-white); transform: scale(1); }
+  94%, 100% { background: var(--pv-white); border-color: rgba(46, 26, 20, 0.2); color: var(--k-ink); transform: scale(1); }
 }
 
 .pv1-reason { height: 1.9em; flex-shrink: 0; margin: 0.1em 0 0.25em; border: 1px solid var(--k-accent); border-radius: 0.4em; padding: 0 0.6em; display: flex; align-items: center; gap: 0.6em; overflow: hidden; animation-name: pv1-reason; }
 @keyframes pv1-reason {
   0%, 51% { height: 0; margin: 0; opacity: 0; }
-  57%, 100% { height: 1.9em; margin: 0.1em 0 0.25em; opacity: 1; }
+  57%, 91% { height: 1.9em; margin: 0.1em 0 0.25em; opacity: 1; }
+  94%, 100% { height: 0; margin: 0; opacity: 0; }
 }
 .pv1-reason em { font-size: 0.44em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--k-accent); flex-shrink: 0; }
 .pv1-type { font-size: 0.56em; white-space: nowrap; animation-name: pv1-type; }
 @keyframes pv1-type {
   0%, 57% { clip-path: inset(0 100% 0 0); animation-timing-function: steps(18, end); }
-  70%, 100% { clip-path: inset(0 0 0 0); }
+  70%, 91% { clip-path: inset(0 0 0 0); }
+  94%, 100% { clip-path: inset(0 100% 0 0); }
 }
 
-.pv1-cursor { left: 31.9em; top: 15.85em; animation-name: pv1-cursor; }
+.pv1-cursor { left: 21em; top: 9.6em; animation-name: pv1-cursor; }
 @keyframes pv1-cursor {
-  0%    { left: 24em;   top: 22em;   opacity: 0; transform: scale(1); }
-  6%    { left: 24em;   top: 22em;   opacity: 1; }
+  0%    { left: 24em;   top: 22em;   opacity: 1; transform: scale(1); }
   23%   { left: 12.6em; top: 11.2em; transform: scale(1); }
   26%   { transform: scale(0.82); }
   29%   { left: 12.6em; top: 11.2em; transform: scale(1); }
   45%   { left: 31.9em; top: 15.85em; transform: scale(1); }
   48%   { transform: scale(0.82); }
   51%   { transform: scale(1); }
-  60%   { left: 31.9em; top: 15.85em; opacity: 1; }
-  70%   { left: 21em;   top: 9.6em;  opacity: 1; }
-  80%, 100% { left: 21em; top: 9.6em; opacity: 0; }
+  60%   { left: 31.9em; top: 15.85em; }
+  70%, 76% { left: 21em; top: 9.6em; }
+  85%   { left: 6.3em;  top: 11.2em; transform: scale(1); }
+  87%   { transform: scale(0.82); }
+  90%   { left: 6.3em;  top: 11.2em; transform: scale(1); }
+  100%  { left: 24em;   top: 22em;   opacity: 1; transform: scale(1); }
 }
 
 /* ---------------------------------------------------------
@@ -1827,17 +1850,38 @@ section {
 /* Chat parts, shared by laptop and phone */
 .pv2-user { position: absolute; right: 0.8em; top: 2.9em; background: var(--k-accent); color: var(--pv-white); border-radius: 0.7em 0.7em 0.15em 0.7em; padding: 0.4em 0.65em; transform-origin: 100% 100%; animation-name: pv2-user; }
 .pv2-user span { font-size: 0.46em; white-space: nowrap; display: block; }
-@keyframes pv2-user { 0%, 31% { opacity: 0; transform: scale(0.7); } 36%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes pv2-user {
+  0%, 31% { opacity: 0; transform: scale(0.7); }
+  36%, 87% { opacity: 1; transform: scale(1); }
+  93% { opacity: 0; transform: translateY(-0.6em); }
+  100% { opacity: 0; transform: scale(0.7); }
+}
 
 .pv2-bot { position: absolute; left: 0.8em; right: 0.8em; top: 4.7em; min-height: 2em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.15em 0.7em 0.7em 0.7em; padding: 0.5em 0.6em; animation-name: pv2-bot; }
-@keyframes pv2-bot { 0%, 37% { opacity: 0; } 40%, 100% { opacity: 1; } }
+@keyframes pv2-bot {
+  0%, 37% { opacity: 0; transform: none; }
+  40%, 87% { opacity: 1; transform: none; }
+  93%, 100% { opacity: 0; transform: translateY(-0.6em); }
+}
 .pv2-line { display: block; font-size: 0.44em; line-height: 1.35; animation-name: pv2-line; }
 .pv2-line + .pv2-line { margin-top: 0.25em; }
 .pv2-line:nth-child(3) { animation-name: pv2-line2; }
 .pv2-src { display: inline-block; margin-top: 0.5em; font-size: 0.38em; font-weight: 600; color: var(--k-link); background: var(--k-tint); border-radius: 999px; padding: 0.2em 0.7em; animation-name: pv2-src; }
-@keyframes pv2-line  { 0%, 55% { opacity: 0; transform: translateY(0.4em); } 60%, 100% { opacity: 1; transform: none; } }
-@keyframes pv2-line2 { 0%, 61% { opacity: 0; transform: translateY(0.4em); } 66%, 100% { opacity: 1; transform: none; } }
-@keyframes pv2-src   { 0%, 67% { opacity: 0; } 71%, 100% { opacity: 1; } }
+@keyframes pv2-line {
+  0%, 55% { opacity: 0; transform: translateY(0.4em); }
+  60%, 93% { opacity: 1; transform: none; }
+  95%, 100% { opacity: 0; transform: translateY(0.4em); }
+}
+@keyframes pv2-line2 {
+  0%, 61% { opacity: 0; transform: translateY(0.4em); }
+  66%, 93% { opacity: 1; transform: none; }
+  95%, 100% { opacity: 0; transform: translateY(0.4em); }
+}
+@keyframes pv2-src {
+  0%, 67% { opacity: 0; }
+  71%, 93% { opacity: 1; }
+  95%, 100% { opacity: 0; }
+}
 
 .pv2-dots { position: absolute; left: 0.7em; top: 0.75em; display: flex; gap: 0.25em; opacity: 0; animation-name: pv2-dots; }
 .pv2-dots i { width: 0.32em; height: 0.32em; border-radius: 50%; background: var(--k-muted); animation-name: pv2-dot; animation-duration: 0.6s; }
@@ -1848,7 +1892,11 @@ section {
 
 .pv2-act { position: absolute; left: 0.8em; display: inline-flex; align-items: center; gap: 0.3em; border: 1px solid var(--k-accent); color: var(--k-accent); background: var(--pv-white); border-radius: 999px; padding: 0.3em 0.6em; animation-name: pv2-act; }
 .pv2-act span { font-size: 0.42em; font-weight: 600; white-space: nowrap; }
-@keyframes pv2-act { 0%, 74% { opacity: 0; transform: scale(0.85); } 80%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes pv2-act {
+  0%, 74% { opacity: 0; transform: scale(0.85); }
+  80%, 87% { opacity: 1; transform: scale(1); }
+  93%, 100% { opacity: 0; transform: scale(0.85); }
+}
 .project-card:hover .pv2-act { box-shadow: 0 0 0 0.25em var(--k-accent-soft); }
 
 .pv2-input { position: absolute; left: 0.8em; right: 0.8em; bottom: 0.8em; height: 1.7em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 999px; display: flex; align-items: center; padding: 0 0.3em 0 0.7em; }
@@ -1902,7 +1950,8 @@ section {
 .pv3-page { position: absolute; left: 0; right: 0; top: 0; height: 37em; background: var(--k-bg); animation-name: pv3-scroll; }
 @keyframes pv3-scroll {
   0%, 34% { transform: translateY(0); }
-  54%, 100% { transform: translateY(-8.5em); }
+  54%, 84% { transform: translateY(-8.5em); }
+  97%, 100% { transform: translateY(0); }
 }
 
 .pv3-top { position: absolute; left: 0; right: 0; top: 0; height: 2.3em; background: var(--pv-white); border-bottom: 1px solid var(--pv-line); display: flex; align-items: center; padding: 0 1.2em; gap: 1.3em; }
@@ -1929,8 +1978,9 @@ section {
 .pv3-goal em::before { counter-reset: pvn var(--pv-n); content: counter(pvn) "% to goal"; }
 .pv3-count { --pv-n: 68; animation-name: pv3-count; }
 @keyframes pv3-count {
-  0%, 6% { --pv-n: 0; }
-  34%, 100% { --pv-n: 68; }
+  0%, 4% { --pv-n: 0; }
+  32%, 86% { --pv-n: 68; }
+  97%, 100% { --pv-n: 0; }
 }
 
 .pv3-sec { position: absolute; left: 1.2em; right: 1.2em; display: flex; justify-content: space-between; align-items: baseline; }
@@ -1947,7 +1997,8 @@ section {
 .pv3-hot { background: var(--k-tint); box-shadow: inset 0.2em 0 0 var(--k-accent); animation-name: pv3-hot; }
 @keyframes pv3-hot {
   0%, 61% { background: transparent; box-shadow: inset 0 0 0 transparent; }
-  64%, 100% { background: var(--k-tint); box-shadow: inset 0.2em 0 0 var(--k-accent); }
+  64%, 81% { background: var(--k-tint); box-shadow: inset 0.2em 0 0 var(--k-accent); }
+  86%, 100% { background: transparent; box-shadow: inset 0 0 0 transparent; }
 }
 
 .pv3-pipe { position: absolute; left: 1.2em; right: 1.2em; top: 29.2em; }
@@ -1988,8 +2039,20 @@ section {
 .pv4-count span { grid-area: 1 / 1; background: rgba(46, 26, 20, 0.1); border-radius: 999px; padding: 0.15em 0.65em; text-align: center; }
 .pv4-count .pv4-was { opacity: 0; animation-name: pv4-was; }
 .pv4-count .pv4-now { animation-name: pv4-now; }
-@keyframes pv4-was { 0%, 52% { opacity: 1; } 54%, 100% { opacity: 0; } }
-@keyframes pv4-now { 0%, 52% { opacity: 0; } 54%, 100% { opacity: 1; } }
+.pv4-count .pv4-was2 { opacity: 0; animation-name: pv4-was2; }
+.pv4-count .pv4-now2 { animation-name: pv4-now2; }
+@keyframes pv4-was2 { 0%, 52% { opacity: 1; } 54%, 78% { opacity: 0; } 80%, 100% { opacity: 1; } }
+@keyframes pv4-now2 { 0%, 52% { opacity: 0; } 54%, 78% { opacity: 1; } 80%, 100% { opacity: 0; } }
+@keyframes pv4-was {
+  0%, 52% { opacity: 1; }
+  54%, 90% { opacity: 0; }
+  92%, 100% { opacity: 1; }
+}
+@keyframes pv4-now {
+  0%, 52% { opacity: 0; }
+  54%, 90% { opacity: 1; }
+  92%, 100% { opacity: 0; }
+}
 
 .pv4-card { position: absolute; width: 10.8em; height: 3.5em; background: var(--pv-white); border: 1px solid var(--pv-line); border-radius: 0.4em; padding: 0.5em 0.6em; transition: box-shadow 0.4s var(--ease); }
 .pv4-card > b { display: block; font-size: 0.56em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 2.6em; }
@@ -2009,30 +2072,55 @@ section {
    at y 5.3 / 9.3 / 13.3em. */
 .pv4-a { left: 27.4em; top: 5.3em; z-index: 4; animation-name: pv4-a; }
 @keyframes pv4-a {
-  0%, 14% { left: 1.8em; transform: none; box-shadow: none; }
-  17% { left: 1.8em; transform: scale(1.06) rotate(-3deg); box-shadow: 0 0.8em 1.2em -0.6em rgba(31, 17, 12, 0.45); }
-  48% { left: 27.4em; transform: scale(1.06) rotate(2deg); box-shadow: 0 0.8em 1.2em -0.6em rgba(31, 17, 12, 0.45); }
-  52%, 100% { left: 27.4em; transform: none; box-shadow: none; }
+  0%, 14% { left: 1.8em; opacity: 1; transform: none; box-shadow: none; }
+  17% { left: 1.8em; opacity: 1; transform: scale(1.06) rotate(-3deg); box-shadow: 0 0.8em 1.2em -0.6em rgba(31, 17, 12, 0.45); }
+  48% { left: 27.4em; opacity: 1; transform: scale(1.06) rotate(2deg); box-shadow: 0 0.8em 1.2em -0.6em rgba(31, 17, 12, 0.45); }
+  52%, 72% { left: 27.4em; opacity: 1; transform: none; box-shadow: none; }
+  79% { left: 27.4em; opacity: 0; transform: scale(0.9); box-shadow: none; }
+  80% { left: 1.8em; opacity: 0; transform: translateY(-1em); box-shadow: none; }
+  91% { left: 1.8em; opacity: 0; transform: translateY(-1em); box-shadow: none; }
+  98%, 100% { left: 1.8em; opacity: 1; transform: none; box-shadow: none; }
 }
 .pv4-a .pv4-av { animation-name: pv4-fill; }
 .pv4-a .pv4-av span { animation-name: pv4-initials; }
 @keyframes pv4-fill {
   0%, 52% { background: transparent; border: 1px dashed rgba(46, 26, 20, 0.35); transform: scale(1); }
   56% { background: var(--k-accent); border: 1px solid var(--k-accent); transform: scale(1.3); }
-  62%, 100% { background: var(--k-accent); border: 1px solid var(--k-accent); transform: scale(1); }
+  62%, 80% { background: var(--k-accent); border: 1px solid var(--k-accent); transform: scale(1); }
+  84%, 100% { background: transparent; border: 1px dashed rgba(46, 26, 20, 0.35); transform: scale(1); }
 }
 .pv4-a .pv4-av { background: var(--k-accent); color: var(--pv-white); }
-@keyframes pv4-initials { 0%, 53% { opacity: 0; } 56%, 100% { opacity: 1; } }
+@keyframes pv4-initials {
+  0%, 53% { opacity: 0; }
+  56%, 80% { opacity: 1; }
+  84%, 100% { opacity: 0; }
+}
 
 .pv4-b { left: 1.8em; top: 5.3em; animation-name: pv4-up1; }
 .pv4-c { left: 1.8em; top: 9.3em; animation-name: pv4-up2; }
-@keyframes pv4-up1 { 0%, 24% { top: 9.3em; } 36%, 100% { top: 5.3em; } }
-@keyframes pv4-up2 { 0%, 27% { top: 13.3em; } 39%, 100% { top: 9.3em; } }
+@keyframes pv4-up1 {
+  0%, 24% { top: 9.3em; }
+  36%, 84% { top: 5.3em; }
+  91%, 100% { top: 9.3em; }
+}
+@keyframes pv4-up2 {
+  0%, 27% { top: 13.3em; }
+  39%, 84% { top: 9.3em; }
+  91%, 100% { top: 13.3em; }
+}
 .pv4-d { left: 14.6em; top: 5.3em; }
 .pv4-e { left: 27.4em; top: 9.3em; animation-name: pv4-dn1; }
 .pv4-f { left: 27.4em; top: 13.3em; animation-name: pv4-dn2; }
-@keyframes pv4-dn1 { 0%, 36% { top: 5.3em; } 47%, 100% { top: 9.3em; } }
-@keyframes pv4-dn2 { 0%, 33% { top: 9.3em; } 44%, 100% { top: 13.3em; } }
+@keyframes pv4-dn1 {
+  0%, 36% { top: 5.3em; }
+  47%, 78% { top: 9.3em; }
+  85%, 100% { top: 5.3em; }
+}
+@keyframes pv4-dn2 {
+  0%, 33% { top: 9.3em; }
+  44%, 78% { top: 13.3em; }
+  85%, 100% { top: 9.3em; }
+}
 
 .pv4-slot { position: absolute; left: 1.8em; top: 5.3em; width: 10.8em; height: 3.5em; border: 1px dashed rgba(46, 26, 20, 0.3); border-radius: 0.4em; opacity: 0; animation-name: pv4-slot; }
 @keyframes pv4-slot { 0%, 15% { opacity: 0; } 18%, 22% { opacity: 1; } 28%, 100% { opacity: 0; } }
@@ -2323,7 +2411,7 @@ section {
                   <div class="pv4-bar"><b>Work item queue</b><span>Skill: Property</span><span>Sort: SLA</span></div>
                   <div class="pv4-col pv4-col--1"><div class="pv4-colhead"><span>Incoming</span><em class="pv4-count"><span class="pv4-was">3</span><span class="pv4-now">2</span></em></div></div>
                   <div class="pv4-col pv4-col--2"><div class="pv4-colhead"><span>Triaged</span><em class="pv4-count"><span>1</span></em></div></div>
-                  <div class="pv4-col pv4-col--3"><div class="pv4-colhead"><span>Assigned</span><em class="pv4-count"><span class="pv4-was">2</span><span class="pv4-now">3</span></em></div></div>
+                  <div class="pv4-col pv4-col--3"><div class="pv4-colhead"><span>Assigned</span><em class="pv4-count"><span class="pv4-was pv4-was2">2</span><span class="pv4-now pv4-now2">3</span></em></div></div>
                   <i class="pv4-slot"></i>
                   <div class="pv4-card pv4-b"><b>Loss run request</b><div class="pv4-meta"><i class=""></i><span>SLA 1d</span><em>Auto</em></div><i class="pv4-av is-empty"><span></span></i></div>
                   <div class="pv4-card pv4-c"><b>Certificate of insurance</b><div class="pv4-meta"><i class="is-lo"></i><span>SLA 3d</span><em>GL</em></div><i class="pv4-av is-empty"><span></span></i></div>
