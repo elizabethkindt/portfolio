@@ -1019,18 +1019,32 @@ blockquote {
 }
 </style>
 <link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-64.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@1,9..144,100..900,0..100,0..1&display=swap" rel="stylesheet">
+<style>
+/* ===== Logo: "Crop: Stack" EK mark =====
+   Three stacked, oversized EK layers cropped by a rose circle. They sway
+   gently on their own, and fan apart (and get heavier) when the cursor is near. */
+.ek-stack{position:relative;display:block;width:var(--s,44px);height:var(--s,44px);min-width:var(--s,44px);min-height:var(--s,44px);flex-shrink:0;border-radius:50%;overflow:hidden;background:#CE8577;font-size:calc(var(--s,44px) * 1.0417);text-decoration:none}
+.ek-stack__l{position:absolute;left:-.12em;top:-.088em;font-family:'Fraunces',Georgia,serif;font-style:italic;line-height:1;letter-spacing:-.056em;white-space:nowrap;font-variation-settings:'wght' 700,'SOFT' 50,'WONK' 1,'opsz' 144;transition:transform .3s cubic-bezier(.22,1,.36,1),font-variation-settings .2s ease;pointer-events:none}
+.ek-stack__l--0{color:transparent;-webkit-text-stroke:max(.6px, calc(var(--s,44px) * .006)) #FAF8F4;opacity:.75}
+.ek-stack__l--1{color:#A8555F}
+.ek-stack__l--2{color:#2E1A14}
+.ek-stack:not(.is-live) .ek-stack__l--0{animation:eks0 4s ease-in-out infinite}
+.ek-stack:not(.is-live) .ek-stack__l--1{animation:eks1 4s ease-in-out infinite}
+@keyframes eks0{0%,100%{transform:translate(0,0)}50%{transform:translate(.058em,.05em)}}
+@keyframes eks1{0%,100%{transform:translate(0,0)}50%{transform:translate(.029em,.025em)}}
+a.ek-stack:focus-visible,.logo-lockup:focus-visible .ek-stack{outline:2px solid #2E1A14;outline-offset:3px}
+@media (prefers-reduced-motion: reduce){.ek-stack__l{animation:none !important;transition:none}}
+</style>
 </head>
 <body>
 
 <header class="site-header">
   <div class="site-header__inner">
     <a href="index.html" class="logo-lockup" aria-label="Home">
-      <span class="logo-mark">
-        <span class="logo-mark__label">EK</span>
-        <span class="logo-mark__hole"></span>
-      </span>
+      <span class="ek-stack" style="--s: 44px"><span class="ek-stack__l ek-stack__l--0" aria-hidden="true">EK</span><span class="ek-stack__l ek-stack__l--1" aria-hidden="true">EK</span><span class="ek-stack__l ek-stack__l--2" aria-hidden="true">EK</span></span>
       <span class="logo-lockup__text">
         <span class="logo-lockup__name">Elizabeth Kindt</span>
         <span class="logo-lockup__tagline-wrap">
@@ -1668,10 +1682,7 @@ blockquote {
 
 <footer class="site-footer wrap">
   <div class="site-footer__brand">
-    <a href="index.html" class="logo-mark logo-mark--sm" aria-label="Home">
-      <span class="logo-mark__label">EK</span>
-      <span class="logo-mark__hole"></span>
-    </a>
+    <a href="index.html" class="ek-stack" style="--s: 30px" aria-label="Home"><span class="ek-stack__l ek-stack__l--0" aria-hidden="true">EK</span><span class="ek-stack__l ek-stack__l--1" aria-hidden="true">EK</span><span class="ek-stack__l ek-stack__l--2" aria-hidden="true">EK</span></a>
     <span>&copy; 2026 Elizabeth Kindt</span>
   </div>
   <div class="site-footer__links">
@@ -2337,6 +2348,34 @@ document.addEventListener('DOMContentLoaded', () => {
       runDemo();
     }
   })();
+</script>
+<script>
+/* Logo: EK layers fan apart toward the cursor when it's near the mark */
+(function(){
+  var marks=[].slice.call(document.querySelectorAll('.ek-stack'));
+  if(!marks.length||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var raf=null,mx=-9999,my=-9999;
+  function update(){
+    raf=null;
+    marks.forEach(function(m){
+      var r=m.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+      var dx=(mx-cx)/r.width,dy=(my-cy)/r.height;
+      var live=Math.hypot(dx,dy)<3;
+      m.classList.toggle('is-live',live);
+      var ls=m.querySelectorAll('.ek-stack__l');
+      if(!live){ls.forEach(function(l){l.style.transform='';l.style.fontVariationSettings='';});return;}
+      var nx=Math.max(-1,Math.min(1,dx)),ny=Math.max(-1,Math.min(1,dy)),d=Math.min(1,Math.hypot(nx,ny));
+      var w=Math.round(300+d*600),unit=r.width*0.054;
+      ls.forEach(function(l,i){
+        var k=2-i;
+        l.style.transform='translate('+(nx*k*unit).toFixed(2)+'px,'+(ny*k*unit).toFixed(2)+'px)';
+        l.style.fontVariationSettings="'wght' "+w+", 'SOFT' 60, 'WONK' 1, 'opsz' 144";
+      });
+    });
+  }
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;if(!raf)raf=requestAnimationFrame(update);});
+  document.documentElement.addEventListener('mouseleave',function(){mx=my=-9999;if(!raf)raf=requestAnimationFrame(update);});
+})();
 </script>
 </body>
 </html>
